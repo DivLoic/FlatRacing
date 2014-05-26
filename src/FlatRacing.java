@@ -4,6 +4,7 @@ public class FlatRacing {
 
 //  Hello Bao, les fondations sont en place!
 // Hello Lo•c ! Comme vas-tu ?
+// J'ai un SSD !
 	
 
 	
