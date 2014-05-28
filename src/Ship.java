@@ -50,7 +50,9 @@ public class Ship {
 		this.keyDown = keyDown;
 	}
 	
-	public void drive() {
+	
+	
+	private void drive() {
 		if(StdDraw.isKeyPressed(this.keyRight)) {
 			if(this.vx + this.ax * Parameters.DT < this.vxMax) {
 				this.vx += this.ax * Parameters.DT;
@@ -84,15 +86,41 @@ public class Ship {
 		}
 	}
 	
-	public void move() {
-		this.x += this.vx * Parameters.DT;
-		this.y += this.vy * Parameters.DT;
+	private void move() {
+		if(this.vx < 0) {
+			if(this.x + this.vx * Parameters.DT < this.r) {
+				this.x = this.r;
+			} else {
+				this.x += this.vx * Parameters.DT;
+			}
+		} else {
+			if(this.x + this.vx * Parameters.DT > Parameters.SCREEN_MAX_WIDTH - this.r) {
+				this.x = Parameters.SCREEN_MAX_WIDTH - this.r;
+			} else {
+				this.x += this.vx * Parameters.DT;
+			}
+		}
+
+		if(this.vy < 0)
+		{
+			if(this.y + this.vy * Parameters.DT < this.r) {
+				this.y = this.r;
+			} else {
+				this.y += this.vy * Parameters.DT;
+			}
+		} else {
+			if(this.y + this.vy * Parameters.DT > Parameters.SCREEN_MAX_HEIGHT - this.r) {
+				this.y = Parameters.SCREEN_MAX_HEIGHT - this.r;
+			} else {
+				this.y += this.vy * Parameters.DT;
+			}
+		}
 		
 		this.vx *= this.frictX;
 		this.vy *= this.frictY;
 	}
 	
-	public void print() {
+	private void print() {
 		StdDraw.setPenColor(this.color);
 		StdDraw.filledCircle(this.x, this.y, this.r);
 		StdDraw.setPenColor();

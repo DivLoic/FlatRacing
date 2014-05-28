@@ -1,81 +1,56 @@
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.KeyEvent;
+
 
 class PieceOfTunnel {
 	
-	private double x;
-	private double y;
+	public int size;
+	public int vx;
+
+	public double[] x;
+	public double[] y;
+
+	public double oldSummit;
+	public double[] targetPoint;
 	
-	private double width;
-	private double height;
+	public Color color;
 	
-	private double vx;
-	
-	private boolean available;
-	
-	public PieceOfTunnel(double x, double y, double width, double height, double vx, boolean available) {
-		this.x = x;
-		this.y = y;
-		
-		this.width = width;
-		this.height = height;
-		
+	public PieceOfTunnel(int size, int vx, double initSummit, double ground, Color color) {
+		this.size = size + 1;
 		this.vx = vx;
 		
-		this.available = available;
-	}
-	
-	
-	public double getX() {
-		return this.x;
-	}
-	
-	public void setX(double x) {
-		this.x = x;
-	}
-	
-	public double getY() {
-		return this.y;
-	}
-	
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public double getWidth() {
-		return this.width;
-	}
-	
-	public double getHeight() {
-		return this.height;
-	}
-	
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
-	public boolean isAvailable() {
-		return this.available;
-	}
-
-	public void setAvailable(boolean available) {
-		this.available = available;
-	}
-	
-	
-	public boolean move() {
-		this.x += this.vx * Parameters.DT;
-
-		if(this.x < 0) {
-			return true;
-		} else {
-			return false;
+		this.x = new double[this.size+2];
+		this.y = new double[this.size+2];
+		
+		this.oldSummit = initSummit;
+		this.targetPoint = new double[]{1, initSummit};
+		
+		this.color = color;
+		
+		for(int i = 0 ; i < this.size ; i ++) {
+			this.x[i] = i;
+			this.y[i] = initSummit;
 		}
+		
+		this.x[this.size] = this.x[this.size-1];
+		this.y[this.size] = ground;
+		
+		this.x[this.size+1] = this.x[0];
+		this.y[this.size+1] = ground;
 	}
+	
+	
 	
 	public void print() {
-		StdDraw.filledRectangle(this.x + this.width/2, this.y + this.height/2, this.width/2, this.height/2);
+		StdDraw.setPenColor(this.color);
+		StdDraw.filledPolygon(this.x, this.y);
+		StdDraw.setPenColor();
+	}
+	
+	public void move() {
+		for(int i = 0 ; i < this.size ; i++) {
+			this.x[i] += this.vx * Parameters.DT;
+		}
 	}
 	
 }
@@ -83,109 +58,72 @@ class PieceOfTunnel {
 
 
 
+
 public class Tunnel {
 	
-	private int maxSize;
+	public PieceOfTunnel bottom;
+	public PieceOfTunnel top;
 	
-	private ArrayList<PieceOfTunnel> bottomPieces, topPieces;
+	public int counterPeriod;
 	
-	private double bottomPointsOldSummit, topPointsOldSummit;
-	private double[] bottomPointsTargetPoint, topPointsTargetPoint;
-	
-	private int counterPeriod;
-	
-	private Color color;
-	
-	public Tunnel(int maxSize, double initSummit, double vx, Color color) {
-		this.maxSize = maxSize;
-		
-		this.bottomPieces = new ArrayList<PieceOfTunnel>();
-		this.topPieces = new ArrayList<PieceOfTunnel>();
-		
-		this.bottomPointsOldSummit = this.topPointsOldSummit = initSummit;
-		this.bottomPointsTargetPoint = new double[]{1, initSummit};
-		this.topPointsTargetPoint = new double[]{1, Parameters.SCREEN_HEIGHT - initSummit};
+	public Tunnel(int size, int vx, double initSummit, Color bottomColor, Color topColor) {
+		this.bottom = new PieceOfTunnel(size, vx, initSummit, 0, bottomColor);
+		this.top = new PieceOfTunnel(size, vx, Parameters.SCREEN_MAX_HEIGHT-initSummit, Parameters.SCREEN_MAX_HEIGHT, topColor);
 		
 		this.counterPeriod = 0;
-		
-		this.color = color;
-		
-		for(int i = 0 ; i < this.maxSize ; i++) {
-			bottomPieces.add(new PieceOfTunnel(i, 0, 1, initSummit, -vx, true));
-			topPieces.add(new PieceOfTunnel(i, Parameters.SCREEN_HEIGHT-initSummit, 1, initSummit, -vx, true));
-		}
 	}
 	
+	
+	
 	public void print() {
-		StdDraw.setPenColor(this.color);
-		
-		for(int i = 0 ; i < this.maxSize ; i++) {
-			if(!this.bottomPieces.get(i).isAvailable() && !this.topPieces.get(i).isAvailable()) {
-				this.bottomPieces.get(i).print();
-				this.topPieces.get(i).print();
-			}
-		}
-		
-		StdDraw.setPenColor();
+		this.bottom.print();
+		this.top.print();
 	}
 	
 	public void move() {
-		for(int i = 0 ; i < this.maxSize ; i++) {
-			this.bottomPieces.get(i).setAvailable(this.bottomPieces.get(i).move());
-			this.topPieces.get(i).setAvailable(this.topPieces.get(i).move());
-		}
+		this.bottom.move();
+		this.top.move();
 	}
 	
 	public void arrange() {
-		int counterAvailable = 0;
+		int counterHidden = 0;
 		
-		for(int i = 0 ; i < this.maxSize ; i++) {
-			if(this.bottomPieces.get(i).isAvailable() && this.topPieces.get(i).isAvailable()) {
-				this.bottomPieces.get(i).setAvailable(false);
-				this.topPieces.get(i).setAvailable(false);
-				
-				counterAvailable++;
-			} else {
-				break;
+		for(int i = 0 ; i < this.bottom.size ; i++) {
+			if(this.bottom.x[i] < 0) {
+				counterHidden++;
 			}
 		}
 		
-		
-		
-		List<PieceOfTunnel> bottomNewPieces = this.bottomPieces.subList(0, counterAvailable);
-		List<PieceOfTunnel> topNewPieces = this.topPieces.subList(0, counterAvailable);
-		
-		this.bottomPieces.subList(0, counterAvailable).clear();
-		this.topPieces.subList(0, counterAvailable).clear();
-		
-		
-		
-		for(int i = 0 ; i < counterAvailable ; i++) {
-			double[] buildPieces = this.buildPieces();
+		for(int i = 0 ; i < this.bottom.size - counterHidden ; i++) {
+			this.bottom.x[i] = this.bottom.x[i+counterHidden];
+			this.bottom.y[i] = this.bottom.y[i+counterHidden];
 
-			bottomNewPieces.get(i).setX(this.maxSize - counterAvailable + i);
-			bottomNewPieces.get(i).setHeight(buildPieces[0]);
+			this.top.x[i] = this.top.x[i+counterHidden];
+			this.top.y[i] = this.top.y[i+counterHidden];
+		}
+		
+		for(int i = this.bottom.size - counterHidden ; i < this.bottom.size ; i++) {
+			double[] heights = this.buildHeights();
 
-			topNewPieces.get(i).setX(this.maxSize - counterAvailable + i);
-			topNewPieces.get(i).setY(buildPieces[1]);
-			topNewPieces.get(i).setHeight(Parameters.SCREEN_HEIGHT - topNewPieces.get(i).getY());
-			
-			this.bottomPieces.add(bottomNewPieces.get(i));
-			this.topPieces.add(topNewPieces.get(i));
+			this.bottom.x[i] = i;
+			this.bottom.y[i] = heights[0];
+
+			this.top.x[i] = i;
+			this.top.y[i] = heights[1];
 		}
 	}
 	
 	public double[][] randomPoints() {
-		int randomX = Utilities.randomIntFromInterval(Parameters.SCREEN_WIDTH / 6, Parameters.SCREEN_WIDTH / 2);
+		int randomX = Utilities.randomIntFromInterval(Parameters.SCREEN_MAX_WIDTH / 6, Parameters.SCREEN_MAX_WIDTH / 2);
 		
-		int randomMasterY = Utilities.randomIntFromInterval(0, Parameters.SCREEN_HEIGHT - Parameters.MIN_THRESHOLD);
-		int randomY = Utilities.randomIntFromInterval(randomMasterY + Parameters.MIN_THRESHOLD, Math.min(Parameters.SCREEN_HEIGHT, randomMasterY + Parameters.MAX_THRESHOLD));
+		int randomMasterY = Utilities.randomIntFromInterval(0, Parameters.SCREEN_MAX_HEIGHT - Parameters.MIN_THRESHOLD);
+		int randomY = Utilities.randomIntFromInterval(randomMasterY + Parameters.MIN_THRESHOLD, Math.min(Parameters.SCREEN_MAX_HEIGHT, randomMasterY + Parameters.MAX_THRESHOLD));
 		
 		double[][] points = {{randomX, randomMasterY}, {randomX, randomY}};
 		return points;
 	}
 	
-	public double sinusTunnel(double oldSummit, double[] targetPoint, int t) {
+	public double sinusTechnology(double oldSummit, double[] targetPoint, int t) {
 		double targetPointX = targetPoint[0];
 		double targetPointY = targetPoint[1];
 
@@ -196,19 +134,19 @@ public class Tunnel {
 		}
 	}
 	
-	public double[] buildPieces() {
-		double bottomValue = this.sinusTunnel(this.bottomPointsOldSummit, this.bottomPointsTargetPoint, this.counterPeriod);
-		double topValue = this.sinusTunnel(this.topPointsOldSummit, this.topPointsTargetPoint, this.counterPeriod);
+	public double[] buildHeights() {
+		double bottomValue = this.sinusTechnology(this.bottom.oldSummit, this.bottom.targetPoint, this.counterPeriod);
+		double topValue = this.sinusTechnology(this.top.oldSummit, this.top.targetPoint, this.counterPeriod);
 		
-		if(this.counterPeriod < this.bottomPointsTargetPoint[0] && this.counterPeriod < this.topPointsTargetPoint[0]) {
+		if(this.counterPeriod < this.bottom.targetPoint[0]) {
 			this.counterPeriod++;
 		} else {
-			this.bottomPointsOldSummit = this.bottomPointsTargetPoint[1];
-			this.topPointsOldSummit = this.topPointsTargetPoint[1];
+			this.bottom.oldSummit = this.bottom.targetPoint[1];
+			this.top.oldSummit = this.top.targetPoint[1];
 
 			double[][] newTargetPoints = this.randomPoints();
-			this.bottomPointsTargetPoint = newTargetPoints[0];
-			this.topPointsTargetPoint = newTargetPoints[1];
+			this.bottom.targetPoint = newTargetPoints[0];
+			this.top.targetPoint = newTargetPoints[1];
 
 			this.counterPeriod = 0;
 		}
@@ -222,6 +160,20 @@ public class Tunnel {
 		this.print();
 		this.move();
 		this.arrange();
+		
+		if(StdDraw.isKeyPressed(KeyEvent.VK_X))
+		{
+			this.top.vx--;
+			this.bottom.vx--;
+		}
+
+		if(StdDraw.isKeyPressed(KeyEvent.VK_W))
+		{
+			if(this.top.vx < 0)
+			{
+				this.top.vx++;
+				this.bottom.vx++;
+			}
+		}
 	}
-	
 }
