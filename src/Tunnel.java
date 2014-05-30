@@ -1,5 +1,6 @@
 import java.awt.Color;
-import java.awt.event.KeyEvent;
+import java.awt.Graphics2D;
+import java.awt.geom.Path2D;
 
 
 class PieceOfTunnel {
@@ -13,17 +14,21 @@ class PieceOfTunnel {
 	public double oldSummit;
 	public double[] targetPoint;
 	
+	public double ground;
+	
 	public Color color;
 	
 	public PieceOfTunnel(int size, int vx, double initSummit, double ground, Color color) {
 		this.size = size + 1;
 		this.vx = vx;
 		
-		this.x = new double[this.size+2];
-		this.y = new double[this.size+2];
+		this.x = new double[this.size];
+		this.y = new double[this.size];
 		
 		this.oldSummit = initSummit;
 		this.targetPoint = new double[]{1, initSummit};
+		
+		this.ground = ground;
 		
 		this.color = color;
 		
@@ -31,20 +36,25 @@ class PieceOfTunnel {
 			this.x[i] = i;
 			this.y[i] = initSummit;
 		}
-		
-		this.x[this.size] = this.x[this.size-1];
-		this.y[this.size] = ground;
-		
-		this.x[this.size+1] = this.x[0];
-		this.y[this.size+1] = ground;
 	}
 	
 	
 	
-	public void print() {
-		StdDraw.setPenColor(this.color);
-		StdDraw.filledPolygon(this.x, this.y);
-		StdDraw.setPenColor();
+	public void print(Graphics2D g) {
+		Path2D.Double polygon = new Path2D.Double();
+		polygon.moveTo(this.x[0], this.y[0]);
+		
+		for(int i = 1 ; i < this.size ; i++) {
+			polygon.lineTo(this.x[i], this.y[i]);
+		}
+		
+		polygon.lineTo(this.x[this.size-1], this.ground);
+		polygon.lineTo(this.x[0], this.ground);
+		polygon.closePath();
+		
+		g.setColor(this.color);
+		g.fill(polygon);
+		g.setColor(Parameters.DEFAULT_COLOR);
 	}
 	
 	public void move() {
@@ -61,55 +71,55 @@ class PieceOfTunnel {
 
 public class Tunnel {
 	
-	public PieceOfTunnel bottom;
 	public PieceOfTunnel top;
+	public PieceOfTunnel bottom;
 	
 	public int counterPeriod;
 	
-	public Tunnel(int size, int vx, double initSummit, Color bottomColor, Color topColor) {
-		this.bottom = new PieceOfTunnel(size, vx, initSummit, 0, bottomColor);
-		this.top = new PieceOfTunnel(size, vx, Parameters.SCREEN_MAX_HEIGHT-initSummit, Parameters.SCREEN_MAX_HEIGHT, topColor);
+	public Tunnel(int size, int vx, double initSummit, Color topColor, Color bottomColor) {
+		this.top = new PieceOfTunnel(size, vx, initSummit, 0, topColor);
+		this.bottom = new PieceOfTunnel(size, vx, Parameters.SCREEN_MAX_HEIGHT-initSummit, Parameters.SCREEN_MAX_HEIGHT, bottomColor);
 		
 		this.counterPeriod = 0;
 	}
 	
 	
 	
-	public void print() {
-		this.bottom.print();
-		this.top.print();
+	public void print(Graphics2D g) {
+		this.top.print(g);
+		this.bottom.print(g);
 	}
 	
 	public void move() {
-		this.bottom.move();
 		this.top.move();
+		this.bottom.move();
 	}
 	
 	public void arrange() {
 		int counterHidden = 0;
 		
-		for(int i = 0 ; i < this.bottom.size ; i++) {
-			if(this.bottom.x[i] < 0) {
+		for(int i = 0 ; i < this.top.size ; i++) {
+			if(this.top.x[i] < 0) {
 				counterHidden++;
 			}
 		}
 		
-		for(int i = 0 ; i < this.bottom.size - counterHidden ; i++) {
-			this.bottom.x[i] = this.bottom.x[i+counterHidden];
-			this.bottom.y[i] = this.bottom.y[i+counterHidden];
-
+		for(int i = 0 ; i < this.top.size - counterHidden ; i++) {
 			this.top.x[i] = this.top.x[i+counterHidden];
 			this.top.y[i] = this.top.y[i+counterHidden];
+
+			this.bottom.x[i] = this.bottom.x[i+counterHidden];
+			this.bottom.y[i] = this.bottom.y[i+counterHidden];
 		}
 		
-		for(int i = this.bottom.size - counterHidden ; i < this.bottom.size ; i++) {
+		for(int i = this.top.size - counterHidden ; i < this.top.size ; i++) {
 			double[] heights = this.buildHeights();
 
-			this.bottom.x[i] = i;
-			this.bottom.y[i] = heights[0];
-
 			this.top.x[i] = i;
-			this.top.y[i] = heights[1];
+			this.top.y[i] = heights[0];
+
+			this.bottom.x[i] = i;
+			this.bottom.y[i] = heights[1];
 		}
 	}
 	
@@ -135,45 +145,30 @@ public class Tunnel {
 	}
 	
 	public double[] buildHeights() {
-		double bottomValue = this.sinusTechnology(this.bottom.oldSummit, this.bottom.targetPoint, this.counterPeriod);
 		double topValue = this.sinusTechnology(this.top.oldSummit, this.top.targetPoint, this.counterPeriod);
+		double bottomValue = this.sinusTechnology(this.bottom.oldSummit, this.bottom.targetPoint, this.counterPeriod);
 		
-		if(this.counterPeriod < this.bottom.targetPoint[0]) {
+		if(this.counterPeriod < this.top.targetPoint[0]) {
 			this.counterPeriod++;
 		} else {
-			this.bottom.oldSummit = this.bottom.targetPoint[1];
 			this.top.oldSummit = this.top.targetPoint[1];
+			this.bottom.oldSummit = this.bottom.targetPoint[1];
 
 			double[][] newTargetPoints = this.randomPoints();
-			this.bottom.targetPoint = newTargetPoints[0];
-			this.top.targetPoint = newTargetPoints[1];
+			this.top.targetPoint = newTargetPoints[0];
+			this.bottom.targetPoint = newTargetPoints[1];
 
 			this.counterPeriod = 0;
 		}
 		
-		double[] values = {bottomValue, topValue};
+		double[] values = {topValue, bottomValue};
 
 		return values;
 	}
 	
-	public void controller() {
-		this.print();
+	public void controller(Graphics2D g) {
+		this.print(g);
 		this.move();
 		this.arrange();
-		
-		if(StdDraw.isKeyPressed(KeyEvent.VK_X))
-		{
-			this.top.vx--;
-			this.bottom.vx--;
-		}
-
-		if(StdDraw.isKeyPressed(KeyEvent.VK_W))
-		{
-			if(this.top.vx < 0)
-			{
-				this.top.vx++;
-				this.bottom.vx++;
-			}
-		}
 	}
 }

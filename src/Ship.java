@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 
 
 public class Ship {
@@ -53,7 +55,7 @@ public class Ship {
 	
 	
 	private void drive() {
-		if(StdDraw.isKeyPressed(this.keyRight)) {
+		/*if(StdDraw.isKeyPressed(this.keyRight)) {
 			if(this.vx + this.ax * Parameters.DT < this.vxMax) {
 				this.vx += this.ax * Parameters.DT;
 			} else {
@@ -83,7 +85,7 @@ public class Ship {
 			} else {
 				this.vy = -this.vyMax;
 			}
-		}
+		}*/
 	}
 	
 	private void move() {
@@ -120,16 +122,18 @@ public class Ship {
 		this.vy *= this.frictY;
 	}
 	
-	private void print() {
-		StdDraw.setPenColor(this.color);
-		StdDraw.filledCircle(this.x, this.y, this.r);
-		StdDraw.setPenColor();
+	private void print(Graphics2D g) {
+		Ellipse2D.Double shape = new Ellipse2D.Double(this.x-this.r, this.y-this.r, this.r*2, this.r*2);
+		
+		g.setColor(this.color);
+		g.fill(shape);
+		g.setColor(Parameters.DEFAULT_COLOR);
 	}
 	
-	public void controller() {
+	public void controller(Graphics2D g) {
 		this.drive();
 		this.move();
-		this.print();
+		this.print(g);
 	}
 	
 }
