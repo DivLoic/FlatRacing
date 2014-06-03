@@ -30,7 +30,7 @@ public class Game extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-				joystick.releas(arg0);
+				joystick.release(arg0);
 			}
 		});
     		

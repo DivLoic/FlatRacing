@@ -26,7 +26,7 @@ public class Keyboard extends JFrame  {
 				
 	}
 
-	public void releas(KeyEvent event) {
+	public void release(KeyEvent event) {
 		directionMapper(event,false);
 	}
 	
