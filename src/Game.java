@@ -106,7 +106,7 @@ public class Game extends JFrame implements ActionListener{
 
 	public static void main(String[] args) {
 		
-		Game FlatRacing = new Game(Parameters.SCREEN_MAX_WIDTH, Parameters.SCREEN_MAX_HEIGHT);
+		Game FlatRacing = new Game(Parameters.SCREEN_MAX_WIDTH, Parameters.SCREEN_MAX_HEIGHT + Parameters.SCREEN_HEADER_HEIGHT);
 		
 		FlatRacing.launchTwoPlayers();
 		

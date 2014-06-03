@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Path2D;
@@ -50,11 +51,24 @@ class PieceOfTunnel {
 		
 		polygon.lineTo(this.x[this.size-1], this.ground);
 		polygon.lineTo(this.x[0], this.ground);
+		polygon.lineTo(this.x[0], this.y[0]);
 		polygon.closePath();
 		
 		g.setColor(this.color);
 		g.fill(polygon);
 		g.setColor(Parameters.DEFAULT_COLOR);
+		
+		g.setStroke(new BasicStroke(3.6f));
+		Path2D.Double border = new Path2D.Double();
+		border.moveTo(this.x[0], this.y[0]);
+		
+		for(int i = 1 ; i < this.size ; i++) {
+			border.lineTo(this.x[i], this.y[i]);
+		}
+		
+		border.lineTo(this.x[this.size-1], this.ground);
+		border.closePath();
+		g.draw(border);
 	}
 	
 	public void move() {

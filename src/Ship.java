@@ -127,6 +127,51 @@ public class Ship {
 		this.vy *= this.frictY;
 	}
 	
+	private void collisionTunnel(Tunnel tunnel) {
+		int l = (int)Math.round(this.x);
+		int m = (int)Math.round(this.x - this.r);
+		int n = (int)Math.round(this.x + this.r);
+
+		if(this.y <= tunnel.top.y[l] + this.r) {
+			double a = (tunnel.top.y[n-1] - tunnel.top.y[m]) / (n-m);
+
+			this.vy = -tunnel.top.vx;
+			this.vx = tunnel.top.vx * a;
+
+			this.y = tunnel.top.y[l] + this.r;
+			//this.lives--;
+		} else if(this.y >= tunnel.bottom.y[l] - this.r) {
+			double a = (tunnel.bottom.y[n-1] - tunnel.bottom.y[m]) / (n-m);
+
+			this.vy = tunnel.bottom.vx;
+			this.vx = -tunnel.bottom.vx * a;
+
+			this.y = tunnel.bottom.y[l] - this.r;
+			//this.lives--;
+		}
+	}
+	
+	private void collisionShip(Ship ship) {
+		if(Utilities.distanceTwoPoints(this.x, this.y, ship.x, ship.y) <= this.r + ship.r) {
+			if(Math.abs(this.vx) >= 0.000001 && Math.abs(this.vy) >= 0.000001) {
+				double dx = this.vx / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+				double dy = this.vy / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+
+				this.x = this.x - dx;
+				this.y = this.y - dy;
+			}
+
+			double shipVx = ship.vx;
+			double shipVy = ship.vy;
+
+			ship.vx += this.vx;
+			ship.vy += this.vy;
+
+			this.vx = shipVx;
+			this.vy = shipVy;
+		}
+	}
+	
 	private void print(Graphics2D g) {
 		Ellipse2D.Double shape = new Ellipse2D.Double(this.x-this.r, this.y-this.r, this.r*2, this.r*2);
 		
@@ -135,9 +180,10 @@ public class Ship {
 		g.setColor(Parameters.DEFAULT_COLOR);
 	}
 	
-	public void controller(Graphics2D g) {
+	public void controller(Tunnel tunnel, Graphics2D g) {
 		this.drive();
 		this.move();
+		this.collisionTunnel(tunnel);
 		this.print(g);
 	}
 	
