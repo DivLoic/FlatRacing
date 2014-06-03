@@ -9,7 +9,6 @@ public class Keyboard extends JFrame  {
 	
 	private Hashtable<Integer, Boolean> keys = new Hashtable<Integer ,Boolean>();
 
-	
 	public Keyboard() {
 		
 	}
