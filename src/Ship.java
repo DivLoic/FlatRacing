@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-import java.util.*;
+
 
 public class Ship {
 	
@@ -22,15 +22,10 @@ public class Ship {
 	private double r;
 	private Color color;
 	
-	private int keyRight;
-	private int keyLeft;
-	private int keyUp;
-	private int keyDown;
-	
-	private Hashtable<String, Boolean> joystick; 
+	private int[] keytab; 
 	
 	
-	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int keyRight, int keyLeft, int keyUp, int keyDown) {
+	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int[] keytab) {
 		this.x = x;
 		this.y = y;
 		
@@ -49,18 +44,17 @@ public class Ship {
 		this.r = r;
 		this.color = color;
 		
-		this.keyRight = keyRight;
-		this.keyLeft = keyLeft;
-		this.keyUp = keyUp;
-		this.keyDown = keyDown;
+		this.keytab = keytab;
 		
-		this.joystick = Game.joystick1;
+		for(int code : keytab ){
+			Game.joystick.addKey(code);
+		}
 	}
 	
 	
 	
 	private void drive() {
-		if(this.joystick.get("right")) {
+		if(Game.joystick.getMove(keytab[1])) {//RIGHT
 			if(this.vx + this.ax * Parameters.DT < this.vxMax) {
 				this.vx += this.ax * Parameters.DT;
 			} else {
@@ -68,7 +62,7 @@ public class Ship {
 			}
 		}
 		
-		if(this.joystick.get("left")) {
+		if(Game.joystick.getMove(keytab[3])) {//LEFT
 			if(this.vx - this.ax * Parameters.DT > -this.vxMax) {
 				this.vx -= this.ax * Parameters.DT;
 			} else {
@@ -76,7 +70,7 @@ public class Ship {
 			}
 		}
 		
-		if(this.joystick.get("down")) {
+		if(Game.joystick.getMove(keytab[2])) {// DOWN
 			if(this.vy + this.ay * Parameters.DT < this.vyMax) {
 				this.vy += this.ay * Parameters.DT;
 			} else {
@@ -84,7 +78,7 @@ public class Ship {
 			}
 		}
 		
-		if(this.joystick.get("up")) {
+		if(Game.joystick.getMove(keytab[0])) {// UP
 			if(this.vy - this.ay * Parameters.DT > -this.vyMax) {
 				this.vy -= this.ay * Parameters.DT;
 			} else {

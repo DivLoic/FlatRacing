@@ -1,28 +1,42 @@
-import java.awt.event.KeyAdapter;
+
 import java.awt.event.KeyEvent;
 import java.util.Hashtable;
 
 
-public class Keyboard extends KeyAdapter {
+import javax.swing.JFrame;
+
+public class Keyboard extends JFrame  {
 	
-	public Hashtable<Integer, Boolean> keyStatus = new Hashtable<Integer, Boolean>();
-	
+	private Hashtable<Integer, Boolean> keys = new Hashtable<Integer ,Boolean>();
+
 	public Keyboard() {
-		this.keyStatus.put(KeyEvent.VK_RIGHT, false);
-		this.keyStatus.put(KeyEvent.VK_LEFT, false);
-		this.keyStatus.put(KeyEvent.VK_UP, false);
-		this.keyStatus.put(KeyEvent.VK_DOWN, false);
 		
-		this.keyStatus.put(KeyEvent.VK_D, false);
-		this.keyStatus.put(KeyEvent.VK_Q, false);
-		this.keyStatus.put(KeyEvent.VK_Z, false);
-		this.keyStatus.put(KeyEvent.VK_S, false);
 	}
 	
+	public void addKey(int asc) {
+		this.keys.put(asc, false);
+	}
+	public boolean getMove(Integer i) {
+		return keys.get(i);
+	}
 	
+	public void press(KeyEvent event) {
+		directionMapper(event,true);
+				
+	}
+
+	public void release(KeyEvent event) {
+		directionMapper(event,false);
+	}
 	
-	public boolean isKeyPressed(int keyCode) {
-		return this.keyStatus.get(keyCode);
+	public  void directionMapper(KeyEvent event, boolean status){
+		
+		for(Integer e :  keys.keySet()){
+			if(event.getKeyCode() == e) {
+				keys.put(e, status);
+			}
+		}
+		
 	}
 
 }
