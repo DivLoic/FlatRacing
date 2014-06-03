@@ -1,16 +1,88 @@
 import javax.swing.JFrame;
 
+import java.util.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Game extends JFrame {
+public class Game extends JFrame implements ActionListener{
 	
+	public static Hashtable<String, Boolean> joystick1 = new Hashtable<String ,Boolean>();
+	public static Hashtable<String, Boolean> joystick2 = new Hashtable<String ,Boolean>();
+
 	public Game(int width, int height) {
 		this.setTitle("FlatRacing");
 		this.setSize(width, height);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
+		
+		joystick1.put("left", false);
+		joystick1.put("right", false);
+		joystick1.put("up", false);
+		joystick1.put("down", false);
+		
+		this.addKeyListener(new KeyListener() {
+    		public void keyTyped (KeyEvent e){
+    			
+    		}
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				switch(arg0.getKeyCode()){
+				case 38:
+					joystick1.put("up", true);
+					break;
+				case 40:
+					joystick1.put("down", true);
+					break;
+				case 37:
+					joystick1.put("left", true);
+					break;
+				case 39:
+					joystick1.put("right", true);
+					break;
+				default:
+					break;
+				}
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				switch(arg0.getKeyCode()){
+				case 38:
+					joystick1.put("up", false);
+					break;
+				case 40:
+					joystick1.put("down", false);
+					break;
+				case 37:
+					joystick1.put("left", false);
+					break;
+				case 39:
+					joystick1.put("right", false);
+					break;
+				default:
+					break;
+				}
+			}
+		});
+    		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	
+	
+
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	private void launchTwoPlayers() {

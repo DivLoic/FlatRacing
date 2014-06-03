@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
-
+import java.util.*;
 
 public class Ship {
 	
@@ -27,6 +27,9 @@ public class Ship {
 	private int keyUp;
 	private int keyDown;
 	
+	private Hashtable<String, Boolean> joystick; 
+	
+	
 	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int keyRight, int keyLeft, int keyUp, int keyDown) {
 		this.x = x;
 		this.y = y;
@@ -50,12 +53,14 @@ public class Ship {
 		this.keyLeft = keyLeft;
 		this.keyUp = keyUp;
 		this.keyDown = keyDown;
+		
+		this.joystick = Game.joystick1;
 	}
 	
 	
 	
 	private void drive() {
-		/*if(StdDraw.isKeyPressed(this.keyRight)) {
+		if(this.joystick.get("right")) {
 			if(this.vx + this.ax * Parameters.DT < this.vxMax) {
 				this.vx += this.ax * Parameters.DT;
 			} else {
@@ -63,7 +68,7 @@ public class Ship {
 			}
 		}
 		
-		if(StdDraw.isKeyPressed(this.keyLeft)) {
+		if(this.joystick.get("left")) {
 			if(this.vx - this.ax * Parameters.DT > -this.vxMax) {
 				this.vx -= this.ax * Parameters.DT;
 			} else {
@@ -71,7 +76,7 @@ public class Ship {
 			}
 		}
 		
-		if(StdDraw.isKeyPressed(this.keyUp)) {
+		if(this.joystick.get("down")) {
 			if(this.vy + this.ay * Parameters.DT < this.vyMax) {
 				this.vy += this.ay * Parameters.DT;
 			} else {
@@ -79,13 +84,13 @@ public class Ship {
 			}
 		}
 		
-		if(StdDraw.isKeyPressed(this.keyDown)) {
+		if(this.joystick.get("up")) {
 			if(this.vy - this.ay * Parameters.DT > -this.vyMax) {
 				this.vy -= this.ay * Parameters.DT;
 			} else {
 				this.vy = -this.vyMax;
 			}
-		}*/
+		}
 	}
 	
 	private void move() {
