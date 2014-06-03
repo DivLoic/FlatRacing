@@ -31,7 +31,7 @@ public class Keyboard extends JFrame  {
 	
 	public  void directionMapper(KeyEvent event, boolean status){
 		
-		for(Integer e :  keys.keySet()){
+		for(Integer e : keys.keySet()){
 			if(event.getKeyCode() == e) {
 				keys.put(e, status);
 			}

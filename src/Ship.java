@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -172,12 +173,16 @@ public class Ship {
 		g.setColor(this.color);
 		g.fill(shape);
 		g.setColor(Parameters.DEFAULT_COLOR);
+		
+		g.setStroke(new BasicStroke(3.2f));
+		g.draw(shape);
 	}
 	
-	public void controller(Tunnel tunnel, Graphics2D g) {
+	public void controller(Tunnel tunnel, Ship ship, Graphics2D g) {
 		this.drive();
 		this.move();
 		this.collisionTunnel(tunnel);
+		this.collisionShip(ship);
 		this.print(g);
 	}
 	

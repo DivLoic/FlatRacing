@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 
 public class Game extends JFrame {
 	
-	public static  Keyboard joystick = new Keyboard(); 
+	public static Keyboard joystick = new Keyboard(); 
 	
 
 	public Game(int width, int height) {
@@ -16,24 +16,17 @@ public class Game extends JFrame {
 		this.setLocationRelativeTo(null);
 		
 		this.addKeyListener(new KeyListener() {
-    		public void keyTyped (KeyEvent e){
-    			
-    		}
+    		public void keyTyped (KeyEvent e) {}
 
-			@Override
 			public void keyPressed(KeyEvent arg0) {
-				// TODO Auto-generated method stub
 				joystick.press(arg0);
-				
 			}
 
-			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
 				joystick.release(arg0);
 			}
 		});
-    		
+    	
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
@@ -60,7 +53,7 @@ public class Game extends JFrame {
 
 	public static void main(String[] args) {
 		
-		Game FlatRacing = new Game(Parameters.SCREEN_MAX_WIDTH, Parameters.SCREEN_MAX_HEIGHT + Parameters.SCREEN_HEADER_HEIGHT);
+		Game FlatRacing = new Game(Parameters.SCREEN_MAX_WIDTH, Parameters.SCREEN_MAX_HEIGHT + Parameters.WINDOW_HEADER_HEIGHT);
 		
 		FlatRacing.launchTwoPlayers();
 		

@@ -65,9 +65,7 @@ class PieceOfTunnel {
 		for(int i = 1 ; i < this.size ; i++) {
 			border.lineTo(this.x[i], this.y[i]);
 		}
-		
-		border.lineTo(this.x[this.size-1], this.ground);
-		border.closePath();
+
 		g.draw(border);
 	}
 	
