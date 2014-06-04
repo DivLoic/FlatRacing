@@ -23,10 +23,16 @@ public class Ship {
 	private double r;
 	private Color color;
 	
+	private int lives;
+	private int score;
+
+	private boolean invincibility;
+	private int invincibilityClock;
+	
 	private int[] keytab; 
 	
 	
-	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int[] keytab) {
+	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int lives, int[] keytab) {
 		this.x = x;
 		this.y = y;
 		
@@ -45,9 +51,15 @@ public class Ship {
 		this.r = r;
 		this.color = color;
 		
+		this.lives = lives;
+		this.score = 0;
+		
+		this.invincibility = false;
+		this.invincibilityClock = 10;
+		
 		this.keytab = keytab;
 		
-		for(int code : keytab ){
+		for(int code : keytab) {
 			Game.joystick.addKey(code);
 		}
 	}
@@ -134,7 +146,11 @@ public class Ship {
 			this.vx = tunnel.top.vx * a;
 
 			this.y = tunnel.top.y[l] + this.r;
-			//this.lives--;
+			
+			if(!this.invincibility) {
+				this.lives--;
+				this.invincibility = true;
+			}
 		} else if(this.y >= tunnel.bottom.y[l] - this.r) {
 			double a = (tunnel.bottom.y[n-1] - tunnel.bottom.y[m]) / (n-m);
 
@@ -142,7 +158,11 @@ public class Ship {
 			this.vx = -tunnel.bottom.vx * a;
 
 			this.y = tunnel.bottom.y[l] - this.r;
-			//this.lives--;
+			
+			if(!this.invincibility) {
+				this.lives--;
+				this.invincibility = true;
+			}
 		}
 	}
 	
@@ -167,10 +187,36 @@ public class Ship {
 		}
 	}
 	
+	private void scoreCalculator() {
+		if(Game.mainClock % 20 == 0) {
+			this.score += (int)(10 * (11 - ((Math.log((Parameters.SCREEN_MAX_WIDTH - this.x)) / Math.log(Parameters.SCREEN_MAX_WIDTH) * 10))));
+		}
+	}
+	
+	private void checkInvincibility() {
+		if(this.invincibility) {
+			if(this.invincibilityClock % 180 == 0) {
+				this.invincibility = false;
+				this.invincibilityClock = 0;
+			}
+
+			this.invincibilityClock++;
+		}
+	}
+	
 	private void print(Graphics2D g) {
 		Ellipse2D.Double shape = new Ellipse2D.Double(this.x-this.r, this.y-this.r, this.r*2, this.r*2);
 		
-		g.setColor(this.color);
+		if(!this.invincibility) {
+			g.setColor(this.color);
+		} else {
+			if(this.invincibilityClock % 10 >= 0 && this.invincibilityClock % 10 <= 3) {
+				g.setColor(Parameters.BACKGROUND_COLOR);
+			} else {
+				g.setColor(this.color);
+			}
+		}
+		
 		g.fill(shape);
 		g.setColor(Parameters.DEFAULT_COLOR);
 		
@@ -183,6 +229,8 @@ public class Ship {
 		this.move();
 		this.collisionTunnel(tunnel);
 		this.collisionShip(ship);
+		this.checkInvincibility();
+		this.scoreCalculator();
 		this.print(g);
 	}
 	

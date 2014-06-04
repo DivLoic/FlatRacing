@@ -6,7 +6,9 @@ import java.awt.event.KeyListener;
 
 public class Game extends JFrame {
 	
-	public static Keyboard joystick = new Keyboard(); 
+	public static Keyboard joystick = new Keyboard();
+	
+	public static int mainClock = 0;
 	
 
 	public Game(int width, int height) {

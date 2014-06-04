@@ -14,5 +14,6 @@ public class Parameters {
 	public static final double DT = 1;
 	
 	public static final Color DEFAULT_COLOR = Color.BLACK;
+	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	
 }
