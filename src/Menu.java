@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class Menu extends JPanel {
 	
-	Tunnel tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73));
+	Tunnel tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), 200);
 	ButtonManager jbm = new ButtonManager();
 	@Override
 	public void paintComponent(Graphics g) {

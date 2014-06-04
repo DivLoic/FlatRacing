@@ -70,6 +70,27 @@ public class Game extends JFrame {
 			}
 		}
 	}
+	
+	private void launchOnePlayer() {
+		OnePlayer subGame = new OnePlayer();
+		
+		this.getContentPane().add(subGame);
+		this.setContentPane(subGame);
+		this.setVisible(true);
+		while(true) {
+			long startTime = System.currentTimeMillis();
+			subGame.repaint();
+			long endTime = System.currentTimeMillis();
+			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
+			
+			try {
+				Thread.sleep((1000/60) - processTime);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 
 	public static void main(String[] args) {
 		
@@ -78,9 +99,10 @@ public class Game extends JFrame {
 		FlatRacing.lauchMenu();
 		switch(choiceMenu){
 			case 0:
-			FlatRacing.launchTwoPlayers();
+				FlatRacing.launchOnePlayer();
 			break;
 			case 1:
+				FlatRacing.launchTwoPlayers();
 			break;
 			default:
 			break;

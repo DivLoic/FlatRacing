@@ -27,6 +27,7 @@ public class ButtonManager {
 		step2 = true;
 		b1 = new Button("1 Joueur", 200, 150, true);
 		b2 = new Button ("2 Joueurs", 350, 150, false);
+		Game.joystick.addKey(KeyEvent.VK_ENTER);
 	}
 	
 	private void slideTonework(){
@@ -46,12 +47,13 @@ public class ButtonManager {
 		}
 		if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b1.selected && !step2){
 			slideToplay();
-		}
-		if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b2.selected && step2){
+		}else if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b2.selected && step2){
 			Game.skipMenu = true;
 			Game.choiceMenu = 1;
+		}else if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b1.selected && step2){
+			Game.skipMenu = true;
+			Game.choiceMenu = 0;
 		}
-	
 		
 	}
 }

@@ -87,12 +87,14 @@ public class Tunnel {
 	public PieceOfTunnel bottom;
 	
 	public int counterPeriod;
+	public int minThreshold;
 	
-	public Tunnel(int size, int vx, double initSummit, Color topColor, Color bottomColor) {
+	public Tunnel(int size, int vx, double initSummit, Color topColor, Color bottomColor, int minThreshold) {
 		this.top = new PieceOfTunnel(size, vx, initSummit, 0, topColor);
 		this.bottom = new PieceOfTunnel(size, vx, Parameters.SCREEN_MAX_HEIGHT-initSummit, Parameters.SCREEN_MAX_HEIGHT, bottomColor);
 		
 		this.counterPeriod = 0;
+		this.minThreshold = minThreshold;
 	}
 	
 	
@@ -138,8 +140,8 @@ public class Tunnel {
 	public double[][] randomPoints() {
 		int randomX = Utilities.randomIntFromInterval(Parameters.SCREEN_MAX_WIDTH / 6, Parameters.SCREEN_MAX_WIDTH / 2);
 		
-		int randomMasterY = Utilities.randomIntFromInterval(0, Parameters.SCREEN_MAX_HEIGHT - Parameters.MIN_THRESHOLD);
-		int randomY = Utilities.randomIntFromInterval(randomMasterY + Parameters.MIN_THRESHOLD, Math.min(Parameters.SCREEN_MAX_HEIGHT, randomMasterY + Parameters.MAX_THRESHOLD));
+		int randomMasterY = Utilities.randomIntFromInterval(0, Parameters.SCREEN_MAX_HEIGHT - this.minThreshold );
+		int randomY = Utilities.randomIntFromInterval(randomMasterY + this.minThreshold , Math.min(Parameters.SCREEN_MAX_HEIGHT, randomMasterY + Parameters.MAX_THRESHOLD));
 		
 		double[][] points = {{randomX, randomMasterY}, {randomX, randomY}};
 		return points;

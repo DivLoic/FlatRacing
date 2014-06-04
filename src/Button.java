@@ -1,10 +1,8 @@
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
+
 
 public class Button{
 	
@@ -28,17 +26,16 @@ public class Button{
 	
 	public void draw(Graphics2D g) {
 		if(option){
+				g.fillRoundRect(posX, posY, 110, 40, 10, 10);
 			if(selected){
-				GradientPaint gp = new GradientPaint(posX, posY, new Color(147,76,147), posX+100, posY+30, new Color(176,95,35), true);
-				g.setPaint(gp);
-				g.fillRoundRect(posX, posY, 100, 30, 10, 10);
+				g.setColor(new Color(176,95,35));
 			}else {
-				g.fillRoundRect(posX, posY, 100, 30, 10, 10);
+				g.setColor(new Color(73,73,73));
 			}
+			g.fillRoundRect(posX+4, posY+4, 102, 32, 10, 10);
 			g.setColor(Color.WHITE);
-			g.fillRoundRect(posX+5, posY+5, 90, 20, 10, 10);
+			g.drawString(this.text, posX+30, posY+25);
 			g.setColor(Parameters.DEFAULT_COLOR);
-			g.drawString(this.text, posX+25, posY+20);
 			g.setStroke(new BasicStroke(3.2f));
 		}
 	}
