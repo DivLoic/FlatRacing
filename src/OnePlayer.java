@@ -11,7 +11,7 @@ public class OnePlayer extends JPanel {
 	
 	Tunnel tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73),Parameters.MIN_THRESHOLD);
 	
-	Ship ship1 = new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 15, 15, 0.6, 0.6, 0.93, 0.93, 8, new Color(176,95,35), new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT});
+	Ship ship1 = new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT});
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
