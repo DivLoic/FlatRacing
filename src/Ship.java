@@ -168,19 +168,25 @@ public class Ship {
 	
 	private void collisionShip(Ship ship) {
 		if(Utilities.distanceTwoPoints(this.x, this.y, ship.x, ship.y) <= this.r + ship.r) {
-			if(Math.abs(this.vx) >= 0.000001 && Math.abs(this.vy) >= 0.000001) {
-				double dx = this.vx / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-				double dy = this.vy / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+			double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, ship.x, ship.y) - (this.r + ship.r));
 
-				this.x = this.x - dx;
-				this.y = this.y - dy;
+			if(Math.abs(this.vx) >= 0.00001)
+			{
+				double dx = this.vx / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+				this.x = this.x - (k * dx * 1.7);
+			}
+			
+			if(Math.abs(this.vy) >= 0.00001)
+			{
+				double dy = this.vy / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+				this.y = this.y - (k * dy * 1.7);
 			}
 
 			double shipVx = ship.vx;
 			double shipVy = ship.vy;
 
-			ship.vx += this.vx;
-			ship.vy += this.vy;
+			ship.vx = this.vx;
+			ship.vy = this.vy;
 
 			this.vx = shipVx;
 			this.vy = shipVy;
@@ -227,8 +233,8 @@ public class Ship {
 	public void controller(Tunnel tunnel, Ship ship, Graphics2D g) {
 		this.drive();
 		this.move();
-		this.collisionTunnel(tunnel);
 		this.collisionShip(ship);
+		this.collisionTunnel(tunnel);
 		this.checkInvincibility();
 		this.scoreCalculator();
 		this.print(g);
