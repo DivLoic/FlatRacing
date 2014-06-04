@@ -173,13 +173,13 @@ public class Ship {
 			if(Math.abs(this.vx) >= 0.00001)
 			{
 				double dx = this.vx / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-				this.x = this.x - (k * dx * 1.7);
+				this.x = this.x - (k * dx * 1.5);
 			}
 			
 			if(Math.abs(this.vy) >= 0.00001)
 			{
 				double dy = this.vy / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-				this.y = this.y - (k * dy * 1.7);
+				this.y = this.y - (k * dy * 1.5);
 			}
 
 			double shipVx = ship.vx;
