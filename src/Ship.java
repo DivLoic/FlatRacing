@@ -31,6 +31,11 @@ public class Ship {
 	
 	private int[] keytab; 
 	
+	private int up;
+	private int right;
+	private int down;
+	private int left;
+	
 	
 	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int lives, int[] keytab) {
 		this.x = x;
@@ -59,7 +64,16 @@ public class Ship {
 		
 		this.keytab = keytab;
 		
+<<<<<<< HEAD
 		for(int code : keytab) {
+=======
+		this.up = keytab[0];
+		this.right = keytab[1];
+		this.down = keytab[2];
+		this.left = keytab[3];
+		
+		for(int code : keytab ){
+>>>>>>> menu
 			Game.joystick.addKey(code);
 		}
 	}
@@ -67,7 +81,7 @@ public class Ship {
 	
 	
 	private void drive() {
-		if(Game.joystick.getMove(keytab[1])) {//RIGHT
+		if(Game.joystick.getMove(right)) {//RIGHT
 			if(this.vx + this.ax * Parameters.DT < this.vxMax) {
 				this.vx += this.ax * Parameters.DT;
 			} else {
@@ -75,7 +89,7 @@ public class Ship {
 			}
 		}
 		
-		if(Game.joystick.getMove(keytab[3])) {//LEFT
+		if(Game.joystick.getMove(left)) {//LEFT
 			if(this.vx - this.ax * Parameters.DT > -this.vxMax) {
 				this.vx -= this.ax * Parameters.DT;
 			} else {
@@ -83,7 +97,7 @@ public class Ship {
 			}
 		}
 		
-		if(Game.joystick.getMove(keytab[2])) {// DOWN
+		if(Game.joystick.getMove(down)) {// DOWN
 			if(this.vy + this.ay * Parameters.DT < this.vyMax) {
 				this.vy += this.ay * Parameters.DT;
 			} else {
@@ -91,7 +105,7 @@ public class Ship {
 			}
 		}
 		
-		if(Game.joystick.getMove(keytab[0])) {// UP
+		if(Game.joystick.getMove(up)) {// UP
 			if(this.vy - this.ay * Parameters.DT > -this.vyMax) {
 				this.vy -= this.ay * Parameters.DT;
 			} else {

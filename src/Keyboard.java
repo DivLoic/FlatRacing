@@ -7,10 +7,13 @@ import javax.swing.JFrame;
 
 public class Keyboard extends JFrame  {
 	
-	private Hashtable<Integer, Boolean> keys = new Hashtable<Integer ,Boolean>();
+	private Hashtable<Integer, Boolean> keys; 
 
 	public Keyboard() {
-		
+		keys  = new Hashtable<Integer ,Boolean>();
+		keys.put(KeyEvent.VK_LEFT, false);
+		keys.put(KeyEvent.VK_RIGHT, false);
+		keys.put(KeyEvent.VK_ENTER, false);
 	}
 	
 	public void addKey(int asc) {
