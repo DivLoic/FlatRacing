@@ -64,16 +64,15 @@ public class Ship {
 		
 		this.keytab = keytab;
 		
-<<<<<<< HEAD
-		for(int code : keytab) {
-=======
+
+
 		this.up = keytab[0];
 		this.right = keytab[1];
 		this.down = keytab[2];
 		this.left = keytab[3];
 		
 		for(int code : keytab ){
->>>>>>> menu
+
 			Game.joystick.addKey(code);
 		}
 	}
