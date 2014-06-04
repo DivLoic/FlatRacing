@@ -8,7 +8,7 @@ public class Parameters {
 	
 	public static final int WINDOW_HEADER_HEIGHT = 22;
 	
-	public static final int MIN_THRESHOLD = SCREEN_MAX_HEIGHT/3;
+	public static final int MIN_THRESHOLD = (SCREEN_MAX_HEIGHT/2);
 	public static final int MAX_THRESHOLD = SCREEN_MAX_HEIGHT;
 	
 	public static final double DT = 1;

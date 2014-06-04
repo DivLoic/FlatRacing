@@ -33,13 +33,14 @@ public class Game extends JFrame {
 	
 	
 	private void launchTwoPlayers() {
-		TwoPlayers subGame = new TwoPlayers();
-		this.setContentPane(subGame);
+		//TwoPlayers subGame = new TwoPlayers();
+		Menu SelectMenu = new Menu();
+		this.setContentPane(SelectMenu );
 		this.setVisible(true);
 		
 		while(true) {
 			long startTime = System.currentTimeMillis();
-			subGame.repaint();
+			SelectMenu.repaint();
 			long endTime = System.currentTimeMillis();
 			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
 			
