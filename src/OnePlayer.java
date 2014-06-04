@@ -27,7 +27,7 @@ public class OnePlayer extends JPanel {
 		
 		tunnel.controller(g2d);
 		
-		ship1.controller(tunnel,ship1,g2d);
+		//ship1.controller(tunnel,ship1,g2d);
 	
 
 	}
