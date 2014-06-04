@@ -1,46 +1,62 @@
-import java.awt.*;
-import java.awt.event.*;
 
-import javax.swing.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 
-public class Button extends JButton implements MouseListener
-{
-	private String name;
+public class Button{
 	
-	public Button(String str){
-		super(str);
-		this.name = str;
+	private String text;
+	private int posX;
+	private int posY;
+	private boolean option;
+	public boolean selected;
+	
+	public Button(boolean leftArrow){
+		
 	}
 	
-
-	public void paintComponent(Graphics g){
-		    Graphics2D g2d = (Graphics2D)g;
-		    g2d.setColor(Color.BLACK);
-		    g2d.fillRoundRect(0, 0, this.getWidth(),this.getHeight() ,15,15);
-		    g.setColor(Color.WHITE);
-		    g2d.fillRoundRect(7, 7, this.getWidth()-15, this.getHeight()-15, 10, 10);
-		    g2d.setColor(Color.BLACK);
-		    g2d.drawString(this.name, this.getWidth() / 2 - (this.getWidth()/ 2 /4), (this.getHeight() / 2) + 5);
-		  }
-	
-
-	public void mouseClicked(MouseEvent e) {
-		//?????
+	public Button(String txt, int X, int Y, boolean selec){
+		this.option = true;
+		this.text = txt;
+		this.posX = X;
+		this.posY = Y;
+		this.selected = selec;
 	}
 	
-	public void mouseEntered(MouseEvent e) {
-		//Silence is golden -- Citation Wordpress =D
+	public void draw(Graphics2D g) {
+		if(option){
+			if(selected){
+				GradientPaint gp = new GradientPaint(posX, posY, new Color(147,76,147), posX+100, posY+30, new Color(176,95,35), true);
+				g.setPaint(gp);
+				g.fillRoundRect(posX, posY, 100, 30, 10, 10);
+			}else {
+				g.fillRoundRect(posX, posY, 100, 30, 10, 10);
+			}
+			g.setColor(Color.WHITE);
+			g.fillRoundRect(posX+5, posY+5, 90, 20, 10, 10);
+			g.setColor(Parameters.DEFAULT_COLOR);
+			g.drawString(this.text, posX+25, posY+20);
+			g.setStroke(new BasicStroke(3.2f));
+		}
 	}
 	
-	public void mouseExited(MouseEvent e)  {
-		//Silence is golden
+	public void callback(){
+		
 	}
 	
-	public void mousePressed(MouseEvent e) {
-		//Silence is golden
+	public void release(){
+		this.selected = false;
 	}
 	
-	public void mouseReleased(MouseEvent e)  {
-		//Silence is golden
+	public void press(){
+		this.selected = true;
 	}
+	public void controller(Graphics2D g){
+		this.draw(g);
+	}
+	
+	
 }

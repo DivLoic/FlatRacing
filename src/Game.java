@@ -1,20 +1,20 @@
+
 import javax.swing.JFrame;
-
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Game extends JFrame {
 	
 	public static Keyboard joystick = new Keyboard(); 
+	public static boolean skipMenu = false ;
+	public static int choiceMenu;
 	
-
 	public Game(int width, int height) {
 		this.setTitle("FlatRacing");
 		this.setSize(width, height);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
-		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addKeyListener(new KeyListener() {
     		public void keyTyped (KeyEvent e) {}
 
@@ -26,21 +26,40 @@ public class Game extends JFrame {
 				joystick.release(arg0);
 			}
 		});
-    	
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	
-	
-	private void launchTwoPlayers() {
-		//TwoPlayers subGame = new TwoPlayers();
-		Menu SelectMenu = new Menu();
-		this.setContentPane(SelectMenu );
+
+	    
+	private void lauchMenu(){
+		Menu selectMenu = new Menu();
+		this.getContentPane().add(selectMenu);
+		this.setContentPane(selectMenu);
 		this.setVisible(true);
 		
+
+		while(!skipMenu) {
+			long startTime = System.currentTimeMillis();
+			selectMenu.repaint();
+			long endTime = System.currentTimeMillis();
+			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
+			
+			try {
+				Thread.sleep((1000/60) - processTime);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}		
+		
+	private void launchTwoPlayers() {
+		TwoPlayers subGame = new TwoPlayers();
+		
+		this.getContentPane().add(subGame);
+		this.setContentPane(subGame);
+		this.setVisible(true);
 		while(true) {
 			long startTime = System.currentTimeMillis();
-			SelectMenu.repaint();
+			subGame.repaint();
 			long endTime = System.currentTimeMillis();
 			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
 			
@@ -56,8 +75,19 @@ public class Game extends JFrame {
 		
 		Game FlatRacing = new Game(Parameters.SCREEN_MAX_WIDTH, Parameters.SCREEN_MAX_HEIGHT + Parameters.WINDOW_HEADER_HEIGHT);
 		
+		FlatRacing.lauchMenu();
+		switch(choiceMenu){
+			case 0:
+			FlatRacing.launchTwoPlayers();
+			break;
+			case 1:
+			break;
+			default:
+			break;
+		}
 		FlatRacing.launchTwoPlayers();
 		
 	}
+
 
 }

@@ -1,16 +1,18 @@
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import javax.swing.*;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JPanel;
 
 
-public class Menu extends JPanel {
+public class OnePlayer extends JPanel {
 	
 	Tunnel tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73));
-	ButtonManager jbm = new ButtonManager();
-	@Override
+	
+	Ship ship1 = new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 15, 15, 0.6, 0.6, 0.93, 0.93, 8, new Color(176,95,35), new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT});
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -24,10 +26,10 @@ public class Menu extends JPanel {
 		g2d.setRenderingHints(rh);
 		
 		tunnel.controller(g2d);
-		jbm.controller(g2d);
-
-	}
+		
+		ship1.controller(tunnel,ship1,g2d);
 	
 
+	}
 	
 }
