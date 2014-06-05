@@ -2,6 +2,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 
 public class Ship {
@@ -13,6 +14,8 @@ public class Ship {
 	private double vy;
 	private double vxMax;
 	private double vyMax;
+	
+	public double dy, dx;
 	
 	private double ax;
 	private double ay;
@@ -36,6 +39,8 @@ public class Ship {
 	private int down;
 	private int left;
 	
+	
+	private ArrayList<Trace> flash = new ArrayList<Trace>() ;
 	
 	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int lives, int[] keytab) {
 		this.x = x;
@@ -75,6 +80,10 @@ public class Ship {
 
 			Game.joystick.addKey(code);
 		}
+		
+		for(int i= 0; i< 50; i++){
+			this.flash.add(new Trace());
+		}
 	}
 	
 	
@@ -86,6 +95,8 @@ public class Ship {
 			} else {
 				this.vx = this.vxMax;
 			}
+
+			timeToTrace();
 		}
 		
 		if(Game.joystick.getMove(left)) {//LEFT
@@ -94,6 +105,8 @@ public class Ship {
 			} else {
 				this.vx = -this.vxMax;
 			}
+
+			timeToTrace();
 		}
 		
 		if(Game.joystick.getMove(down)) {// DOWN
@@ -102,6 +115,7 @@ public class Ship {
 			} else {
 				this.vy = this.vyMax;
 			}
+			timeToTrace();
 		}
 		
 		if(Game.joystick.getMove(up)) {// UP
@@ -110,6 +124,7 @@ public class Ship {
 			} else {
 				this.vy = -this.vyMax;
 			}
+			timeToTrace();
 		}
 	}
 	
@@ -243,6 +258,26 @@ public class Ship {
 		g.draw(shape);
 	}
 	
+	public void setTrace(){
+		for(int i = 0; i < this.flash.size(); i++){
+			if(flash.get(i).getAvailable() == true){
+				flash.get(i).setter(x, y, dx, dy);
+				break;
+			}
+		}
+	}
+	
+	
+	public void timeToTrace(){
+		if(Game.mainClock % 3 == 0){
+			this.setTrace();
+		}else{
+			
+		}
+		
+	}
+	
+	
 	public void controller(Tunnel tunnel, Ship ship, Graphics2D g) {
 		this.drive();
 		this.move();
@@ -250,6 +285,15 @@ public class Ship {
 		this.collisionTunnel(tunnel);
 		this.checkInvincibility();
 		this.scoreCalculator();
+		for(int i = 0; i < this.flash.size(); i++){
+			if(this.flash.get(i).getAvailable() == false){
+				this.flash.get(i).grow();
+				this.flash.get(i).draw(g);
+				if(this.flash.get(i).blackSize <= 0.2){ //whiteSize
+					this.flash.get(i).stop();
+				}
+			}
+		}
 		this.print(g);
 	}
 	

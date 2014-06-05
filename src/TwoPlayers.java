@@ -26,11 +26,11 @@ public class TwoPlayers extends JPanel {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 		
-		tunnel.controller(g2d);
+		
 		
 		ship1.controller(tunnel, ship2, g2d);
 		ship2.controller(tunnel, ship1, g2d);
-
+		tunnel.controller(g2d);
 	}
 	
 }
