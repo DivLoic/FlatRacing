@@ -297,7 +297,6 @@ public class Ship {
 	}
 	
 
-	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, boolean leftOrRight) {
 
 	public void setTrace(){
 		for(int i = 0; i < this.flash.size(); i++){
@@ -334,7 +333,7 @@ public class Ship {
 	}
 	
 	
-	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors) {
+	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors,boolean leftOrRight) {
 		this.drive();
 		this.move();
 		this.collisionShip(ship);
@@ -343,7 +342,7 @@ public class Ship {
 		this.checkInvincibility();
 		this.scoreCalculator(g, leftOrRight);
 		this.checkLives(g, leftOrRight);
-		this.scoreCalculator();
+		this.scoreCalculator(g, leftOrRight);
 		for(int i = 0; i < this.flash.size(); i++){
 			if(this.flash.get(i).getAvailable() == false){
 				this.flash.get(i).grow();
