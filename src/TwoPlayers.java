@@ -28,6 +28,7 @@ public class TwoPlayers extends JPanel {
 		
 		
 
+
 		g.setColor(Parameters.BACKGROUND_COLOR);
 		g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), Parameters.INFORMATIONS_MAX_HEIGHT); // Supprimer le léger dépassement du bord du tunnel sur les informations
 		g.setColor(Parameters.DEFAULT_COLOR);

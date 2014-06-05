@@ -43,6 +43,7 @@ public class Ship {
 	
 	
 	private ArrayList<Trace> flash = new ArrayList<Trace>() ;
+	private PullRemains remains = new PullRemains(); 
 	
 	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int lives, int[] keytab) {
 		this.x = x;
@@ -319,24 +320,28 @@ public class Ship {
 	
 	private void collisionMeteor(MeteorShawer meteors){
 		for(int i = 1; i < meteors.meteorPool.size(); i++ ) {
-			if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
-				double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
-
-				this.lives--;
-				this.invincibility = true;
-				meteors.switchOff(i);
-				this.vx = -Parameters.METEOR_MAX_SPEED/5 * meteors.meteorPool.size();
-				
+if( meteors.meteorPool.get(i).getAvailable() == false) {
+				if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
+					double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
+	
+					this.lives--;
+					this.invincibility = true;
+					meteors.switchOff(i);
+					this.remains.lauch(this.x, this.y);
+					this.vx = -Parameters.METEOR_MAX_SPEED/8 * meteors.meteorPool.size();
+					
+				}
 			}
 		}
 		
 	}
 	
 	
-	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors,boolean leftOrRight) {
+	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors, boolean leftOrRight) {
 		this.drive();
 		this.move();
 		this.collisionShip(ship);
+		this.remains.controller(g);
 		this.collisionMeteor(meteors);
 		this.collisionTunnel(tunnel);
 		this.checkInvincibility();
