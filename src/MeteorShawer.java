@@ -14,15 +14,19 @@ class Meteor {
 	
 	private boolean available = true;
 	
-	public Meteor(double posX, double posY, double speedX){
+	public Meteor(double posX, double posY, double speedX, double size){
 		this.x = posX;
 		this.y = posY;
 		this.vx = speedX;
-
+		this.size = size;
 	}
 	
-	public void left(){
-		x = x - vx;
+	public void moveY(){
+		
+	}
+	
+	public void moveX(double d){
+		x = x + d;
 	}
 	
 	public void draw(Graphics2D g) {
@@ -37,6 +41,13 @@ class Meteor {
 		this.x = Parameters.SCREEN_MAX_WIDTH;
 		this.y = Math.random()*((tube.bottom.y[699] + 10 ) - tube.top.y[699] - 10) + tube.top.y[690] -10;
 		
+	}
+	
+	//SURCHARGE DE LA METHODE
+	public void lauch(double x, double y) {
+		this.available = false;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public boolean getAvailable(){
@@ -68,7 +79,7 @@ public class MeteorShawer {
 	
 	public MeteorShawer() {
 		for(int i= 0; i< 10; i++){
-			this.meteorPool.add(new Meteor(0,0, Parameters.METEOR_MAX_SPEED));
+			this.meteorPool.add(new Meteor(0,0, Parameters.METEOR_MAX_SPEED ,0));
 		}
 	}
 	
@@ -81,7 +92,7 @@ public class MeteorShawer {
 	}
 	
 	public void controller(Tunnel tube, Graphics2D g) {
-		if(Math.random()*10 > Parameters.METEOR_PROBA && Game.mainClock % 15 == 0) {
+		if(Math.random()*10 > Parameters.METEOR_PROBA && Game.mainClock % 30 == 0) {
 			for(int k = 0; k < this.meteorPool.size(); k++){
 				if(meteorPool.get(k).getAvailable() == true){
 					switchOn(tube, k);
@@ -94,7 +105,7 @@ public class MeteorShawer {
 			if(meteorPool.get(i).getAvailable() == false && meteorPool.get(i).x > 1) {
 		
 				meteorPool.get(i).draw(g);
-				meteorPool.get(i).left();
+				meteorPool.get(i).moveX(-Parameters.METEOR_MAX_SPEED);
 				if(meteorPool.get(i).x > Parameters.MAX_METEOR_SIZE) {
 					if( meteorPool.get(i).collision(tube)){
 						switchOff(i);
