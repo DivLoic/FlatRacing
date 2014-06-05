@@ -277,11 +277,27 @@ public class Ship {
 		
 	}
 	
+	private void collisionMeteor(MeteorShawer meteors){
+		for(int i = 1; i < meteors.meteorPool.size(); i++ ) {
+			if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
+				double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
+
+				this.lives--;
+				this.invincibility = true;
+				meteors.switchOff(i);
+				this.vx = -Parameters.METEOR_MAX_SPEED/5 * meteors.meteorPool.size();
+				
+			}
+		}
+		
+	}
 	
-	public void controller(Tunnel tunnel, Ship ship, Graphics2D g) {
+	
+	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors) {
 		this.drive();
 		this.move();
 		this.collisionShip(ship);
+		this.collisionMeteor(meteors);
 		this.collisionTunnel(tunnel);
 		this.checkInvincibility();
 		this.scoreCalculator();
