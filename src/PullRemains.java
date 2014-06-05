@@ -53,7 +53,7 @@ class Remain {
 	}
 	
 	public void draw(Graphics2D g){
-		g.setStroke(new BasicStroke(2.8f));
+		g.setStroke(new BasicStroke(2.9f));
 		//g.setColor(new Color(73,73,73));
 		Path2D.Double border = new Path2D.Double();
 		border.moveTo(this.x, this.y);
