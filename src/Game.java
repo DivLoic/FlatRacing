@@ -96,7 +96,7 @@ public class Game extends JFrame {
 
 	public static void main(String[] args) {
 
-		Game FlatRacing = new Game(Parameters.SCREEN_MAX_WIDTH, Parameters.SCREEN_MAX_HEIGHT + Parameters.WINDOW_HEADER_HEIGHT);
+		Game FlatRacing = new Game(Parameters.WINDOW_MAX_WIDTH, Parameters.WINDOW_MAX_HEIGHT);
 		
 		FlatRacing.lauchMenu();
 		switch(choiceMenu){

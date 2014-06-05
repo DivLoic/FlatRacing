@@ -6,7 +6,11 @@ public class Parameters {
 	public static final int SCREEN_MAX_WIDTH = 700;
 	public static final int SCREEN_MAX_HEIGHT = 300;
 	
+	public static final int INFORMATIONS_MAX_HEIGHT = 80;
+	
 	public static final int WINDOW_HEADER_HEIGHT = 22;
+	public static final int WINDOW_MAX_WIDTH = SCREEN_MAX_WIDTH;
+	public static final int WINDOW_MAX_HEIGHT = SCREEN_MAX_HEIGHT + WINDOW_HEADER_HEIGHT + INFORMATIONS_MAX_HEIGHT;
 	
 	public static final int MIN_THRESHOLD = (SCREEN_MAX_HEIGHT/2);
 	public static final int MAX_THRESHOLD = SCREEN_MAX_HEIGHT;

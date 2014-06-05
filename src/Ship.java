@@ -1,5 +1,7 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
@@ -183,14 +185,12 @@ public class Ship {
 		if(Utilities.distanceTwoPoints(this.x, this.y, ship.x, ship.y) <= this.r + ship.r) {
 			double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, ship.x, ship.y) - (this.r + ship.r));
 
-			if(Math.abs(this.vx) >= 0.00001)
-			{
+			if(Math.abs(this.vx) >= 0.01) {
 				double dx = this.vx / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
 				this.x = this.x - (k * dx * 1.5);
 			}
 			
-			if(Math.abs(this.vy) >= 0.00001)
-			{
+			if(Math.abs(this.vy) >= 0.01) {
 				double dy = this.vy / Math.sqrt(this.vx * this.vx + this.vy * this.vy);
 				this.y = this.y - (k * dy * 1.5);
 			}
@@ -206,9 +206,47 @@ public class Ship {
 		}
 	}
 	
-	private void scoreCalculator() {
+	private void scoreCalculator(Graphics2D g, boolean leftOrRight) {
+		Font myFont = new Font("Arial", Font.BOLD, 16);
+		g.setFont(myFont);
+		
+		FontMetrics fm = g.getFontMetrics(myFont);
+		int lengthStringScore = fm.stringWidth("Score : ");
+		int lengthMyScore = fm.stringWidth("" + this.score + "");
+		
+		if(leftOrRight) {
+			g.drawString("Score : ", 10, Parameters.SCREEN_MAX_HEIGHT + 50);
+			g.setColor(this.color);
+			g.drawString("" + this.score + "", 10 +lengthStringScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+		} else {
+			g.drawString("Score : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyScore-lengthStringScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+			g.setColor(this.color);
+			g.drawString("" + this.score + "", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+		}
+		
+		g.setColor(Parameters.DEFAULT_COLOR);
+		
 		if(Game.mainClock % 20 == 0) {
 			this.score += (int)(10 * (11 - ((Math.log((Parameters.SCREEN_MAX_WIDTH - this.x)) / Math.log(Parameters.SCREEN_MAX_WIDTH) * 10))));
+		}
+	}
+	
+	private void checkLives(Graphics2D g, boolean leftOrRight) {
+		Font myFont = new Font("Arial", Font.BOLD, 16);
+		g.setFont(myFont);
+		
+		FontMetrics fm = g.getFontMetrics(myFont);
+		int lengthStringLives = fm.stringWidth("Lives : ");
+		int lengthMyLives = fm.stringWidth("" + this.lives + "");
+		
+		if(leftOrRight) {
+			g.drawString("Lives : ", 10, Parameters.SCREEN_MAX_HEIGHT + 25);
+			g.setColor(this.color);
+			g.drawString("" + this.lives + "", 10 +lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+		} else {
+			g.drawString("Lives : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives-lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+			g.setColor(this.color);
+			g.drawString("" + this.lives + "", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives, Parameters.SCREEN_MAX_HEIGHT + 25);
 		}
 	}
 	
@@ -243,13 +281,14 @@ public class Ship {
 		g.draw(shape);
 	}
 	
-	public void controller(Tunnel tunnel, Ship ship, Graphics2D g) {
+	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, boolean leftOrRight) {
 		this.drive();
 		this.move();
 		this.collisionShip(ship);
 		this.collisionTunnel(tunnel);
 		this.checkInvincibility();
-		this.scoreCalculator();
+		this.scoreCalculator(g, leftOrRight);
+		this.checkLives(g, leftOrRight);
 		this.print(g);
 	}
 	

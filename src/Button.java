@@ -32,7 +32,7 @@ public class Button{
 			}else {
 				g.setColor(new Color(73,73,73));
 			}
-			g.fillRoundRect(posX+4, posY+4, 102, 32, 10, 10);
+			g.fillRoundRect(posX+4, posY+4, 102, 32, 5, 5);
 			g.setColor(Color.WHITE);
 			g.drawString(this.text, posX+30, posY+25);
 			g.setColor(Parameters.DEFAULT_COLOR);
