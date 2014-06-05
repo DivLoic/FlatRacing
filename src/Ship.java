@@ -81,7 +81,7 @@ public class Ship {
 			Game.joystick.addKey(code);
 		}
 		
-		for(int i= 0; i< 50; i++){
+		for(int i= 0; i< 20; i++){
 			this.flash.add(new Trace());
 		}
 	}
