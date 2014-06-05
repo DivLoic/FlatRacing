@@ -230,6 +230,8 @@ public class Ship {
 		int lengthStringScore = fm.stringWidth("Score : ");
 		int lengthMyScore = fm.stringWidth("" + this.score + "");
 		
+		g.setColor(Parameters.DEFAULT_COLOR);
+		
 		if(leftOrRight) {
 			g.drawString("Score : ", 10, Parameters.SCREEN_MAX_HEIGHT + 50);
 			g.setColor(this.color);
@@ -255,6 +257,8 @@ public class Ship {
 		int lengthStringLives = fm.stringWidth("Lives : ");
 		int lengthMyLives = fm.stringWidth("" + this.lives + "");
 		
+		g.setColor(Parameters.DEFAULT_COLOR);
+		
 		if(leftOrRight) {
 			g.drawString("Lives : ", 10, Parameters.SCREEN_MAX_HEIGHT + 25);
 			g.setColor(this.color);
@@ -264,6 +268,8 @@ public class Ship {
 			g.setColor(this.color);
 			g.drawString("" + this.lives + "", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives, Parameters.SCREEN_MAX_HEIGHT + 25);
 		}
+		
+		g.setColor(Parameters.DEFAULT_COLOR);
 	}
 	
 	private void checkInvincibility() {
@@ -320,7 +326,7 @@ public class Ship {
 	
 	private void collisionMeteor(MeteorShawer meteors){
 		for(int i = 1; i < meteors.meteorPool.size(); i++ ) {
-if( meteors.meteorPool.get(i).getAvailable() == false) {
+			if( meteors.meteorPool.get(i).getAvailable() == false) {
 				if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
 					double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
 	
@@ -347,7 +353,7 @@ if( meteors.meteorPool.get(i).getAvailable() == false) {
 		this.checkInvincibility();
 		this.scoreCalculator(g, leftOrRight);
 		this.checkLives(g, leftOrRight);
-		this.scoreCalculator(g, leftOrRight);
+		
 		for(int i = 0; i < this.flash.size(); i++){
 			if(this.flash.get(i).getAvailable() == false){
 				this.flash.get(i).grow();

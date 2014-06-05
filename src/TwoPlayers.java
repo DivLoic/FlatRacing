@@ -27,12 +27,6 @@ public class TwoPlayers extends JPanel {
 		g2d.setRenderingHints(rh);
 		
 		
-
-
-		g.setColor(Parameters.BACKGROUND_COLOR);
-		g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), Parameters.INFORMATIONS_MAX_HEIGHT); // Supprimer le léger dépassement du bord du tunnel sur les informations
-		g.setColor(Parameters.DEFAULT_COLOR);
-		
 		allMeteors.controller(tunnel, g2d);
 		ship1.controller(tunnel, ship2, g2d, allMeteors ,true);
 		ship2.controller(tunnel, ship1, g2d, allMeteors ,false);
@@ -40,6 +34,10 @@ public class TwoPlayers extends JPanel {
 		Game.mainClock++;
 
 		tunnel.controller(g2d);
+		
+		g.setColor(Parameters.BACKGROUND_COLOR);
+		g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
+		g.setColor(Parameters.DEFAULT_COLOR);
 
 	}
 	
