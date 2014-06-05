@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -46,11 +47,15 @@ class Meteor {
 		Ellipse2D.Double shape = new Ellipse2D.Double(this.x-this.size, this.y-this.size, this.size*2, this.size*2);
 		g.setColor(new Color(73,73,73));//RED  
 		g.fill(shape);
+		g.setColor(Parameters.DEFAULT_COLOR);
+		
+		g.setStroke(new BasicStroke(3.2f));
+		g.draw(shape);
 	}
 	
 	public void lauch(Tunnel tube) {
 		this.available = false;
-		this.size = Math.random()*(Parameters.MAX_METEOR_SIZE - Parameters.MIN_METEOR_SIZE) + Parameters.MIN_METEOR_SIZE;
+		this.size = Parameters.METEOR_SIZE;
 		this.x = Parameters.SCREEN_MAX_WIDTH;
 		this.y = Math.random()*((tube.bottom.y[699] + 10 ) - tube.top.y[699] - 10) + tube.top.y[690] -10;
 		
@@ -122,7 +127,7 @@ public class MeteorShawer {
 		
 				meteorPool.get(i).draw(g);
 				meteorPool.get(i).moveX(-Parameters.METEOR_MAX_SPEED);
-				if(meteorPool.get(i).x > Parameters.MAX_METEOR_SIZE) {
+				if(meteorPool.get(i).x > Parameters.METEOR_SIZE) {
 					if( meteorPool.get(i).collision(tube)){
 						switchOff(i);
 					}

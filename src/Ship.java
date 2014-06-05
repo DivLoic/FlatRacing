@@ -166,33 +166,35 @@ public class Ship {
 	}
 	
 	private void collisionTunnel(Tunnel tunnel) {
-		int l = (int)Math.round(this.x);
-		int m = (int)Math.round(this.x - this.r);
-		int n = (int)Math.round(this.x + this.r);
-
-		if(this.y <= tunnel.top.y[l] + this.r) {
-			double a = (tunnel.top.y[n-1] - tunnel.top.y[m]) / (n-m);
-
-			this.vy = -tunnel.top.vx;
-			this.vx = tunnel.top.vx * a;
-
-			this.y = tunnel.top.y[l] + this.r;
+		if(this.x >= 0 && this.x < Parameters.SCREEN_MAX_WIDTH) {
+			int l = (int)Math.round(this.x);
+			int m = (int)Math.round(this.x - this.r);
+			int n = (int)Math.round(this.x + this.r);
 			
-			if(!this.invincibility) {
-				this.lives--;
-				this.invincibility = true;
-			}
-		} else if(this.y >= tunnel.bottom.y[l] - this.r) {
-			double a = (tunnel.bottom.y[n-1] - tunnel.bottom.y[m]) / (n-m);
-
-			this.vy = tunnel.bottom.vx;
-			this.vx = -tunnel.bottom.vx * a;
-
-			this.y = tunnel.bottom.y[l] - this.r;
-			
-			if(!this.invincibility) {
-				this.lives--;
-				this.invincibility = true;
+			if(this.y <= tunnel.top.y[l] + this.r) {
+				double a = (tunnel.top.y[n-1] - tunnel.top.y[m]) / (n-m);
+	
+				this.vy = -tunnel.top.vx;
+				this.vx = tunnel.top.vx * a;
+	
+				this.y = tunnel.top.y[l] + this.r;
+				
+				if(!this.invincibility) {
+					this.lives--;
+					this.invincibility = true;
+				}
+			} else if(this.y >= tunnel.bottom.y[l] - this.r) {
+				double a = (tunnel.bottom.y[n-1] - tunnel.bottom.y[m]) / (n-m);
+	
+				this.vy = tunnel.bottom.vx;
+				this.vx = -tunnel.bottom.vx * a;
+	
+				this.y = tunnel.bottom.y[l] - this.r;
+				
+				if(!this.invincibility) {
+					this.lives--;
+					this.invincibility = true;
+				}
 			}
 		}
 	}

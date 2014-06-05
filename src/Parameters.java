@@ -20,9 +20,7 @@ public class Parameters {
 	public static final Color DEFAULT_COLOR = Color.BLACK;
 	public static final Color BACKGROUND_COLOR = Color.WHITE;
 	
-	public static final double MAX_METEOR_SIZE = 10;
-
-	public static final double MIN_METEOR_SIZE = 4;
+	public static final double METEOR_SIZE = 7;
 	
 	public static final double METEOR_MAX_SPEED = 4.5;
 	public static final double METEOR_PROBA = 8;
