@@ -76,7 +76,7 @@ public class MeteorShawer {
 		meteorPool.get(i).lauch(tube);
 	}
 	
-	private void switchOff(int i){
+	protected void switchOff(int i){
 		meteorPool.get(i).stop();
 	}
 	

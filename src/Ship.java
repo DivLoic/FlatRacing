@@ -284,7 +284,9 @@ public class Ship {
 
 				this.lives--;
 				this.invincibility = true;
+				meteors.switchOff(i);
 				this.vx = -Parameters.METEOR_MAX_SPEED/5 * meteors.meteorPool.size();
+				
 			}
 		}
 		
