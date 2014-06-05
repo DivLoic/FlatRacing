@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
 
 
 public class Ship {
@@ -15,6 +16,8 @@ public class Ship {
 	private double vy;
 	private double vxMax;
 	private double vyMax;
+	
+	public double dy, dx;
 	
 	private double ax;
 	private double ay;
@@ -38,6 +41,8 @@ public class Ship {
 	private int down;
 	private int left;
 	
+	
+	private ArrayList<Trace> flash = new ArrayList<Trace>() ;
 	
 	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int lives, int[] keytab) {
 		this.x = x;
@@ -77,6 +82,10 @@ public class Ship {
 
 			Game.joystick.addKey(code);
 		}
+		
+		for(int i= 0; i< 20; i++){
+			this.flash.add(new Trace());
+		}
 	}
 	
 	
@@ -88,6 +97,8 @@ public class Ship {
 			} else {
 				this.vx = this.vxMax;
 			}
+
+			timeToTrace();
 		}
 		
 		if(Game.joystick.getMove(left)) {//LEFT
@@ -96,6 +107,8 @@ public class Ship {
 			} else {
 				this.vx = -this.vxMax;
 			}
+
+			timeToTrace();
 		}
 		
 		if(Game.joystick.getMove(down)) {// DOWN
@@ -104,6 +117,7 @@ public class Ship {
 			} else {
 				this.vy = this.vyMax;
 			}
+			timeToTrace();
 		}
 		
 		if(Game.joystick.getMove(up)) {// UP
@@ -112,6 +126,7 @@ public class Ship {
 			} else {
 				this.vy = -this.vyMax;
 			}
+			timeToTrace();
 		}
 	}
 	
@@ -281,14 +296,63 @@ public class Ship {
 		g.draw(shape);
 	}
 	
+
 	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, boolean leftOrRight) {
+
+	public void setTrace(){
+		for(int i = 0; i < this.flash.size(); i++){
+			if(flash.get(i).getAvailable() == true){
+				flash.get(i).setter(x, y, dx, dy);
+				break;
+			}
+		}
+	}
+	
+	
+	public void timeToTrace(){
+		if(Game.mainClock % 3 == 0){
+			this.setTrace();
+		}else{
+			
+		}
+		
+	}
+	
+	private void collisionMeteor(MeteorShawer meteors){
+		for(int i = 1; i < meteors.meteorPool.size(); i++ ) {
+			if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
+				double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
+
+				this.lives--;
+				this.invincibility = true;
+				meteors.switchOff(i);
+				this.vx = -Parameters.METEOR_MAX_SPEED/5 * meteors.meteorPool.size();
+				
+			}
+		}
+		
+	}
+	
+	
+	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors) {
 		this.drive();
 		this.move();
 		this.collisionShip(ship);
+		this.collisionMeteor(meteors);
 		this.collisionTunnel(tunnel);
 		this.checkInvincibility();
 		this.scoreCalculator(g, leftOrRight);
 		this.checkLives(g, leftOrRight);
+		this.scoreCalculator();
+		for(int i = 0; i < this.flash.size(); i++){
+			if(this.flash.get(i).getAvailable() == false){
+				this.flash.get(i).grow();
+				this.flash.get(i).draw(g);
+				if(this.flash.get(i).blackSize <= 0.2){ //whiteSize
+					this.flash.get(i).stop();
+				}
+			}
+		}
 		this.print(g);
 	}
 	

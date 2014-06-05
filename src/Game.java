@@ -65,7 +65,7 @@ public class Game extends JFrame {
 			subGame.repaint();
 			long endTime = System.currentTimeMillis();
 			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
-			
+		
 			try {
 				Thread.sleep((1000/60) - processTime);
 			} catch (InterruptedException e) {
@@ -85,7 +85,7 @@ public class Game extends JFrame {
 			subGame.repaint();
 			long endTime = System.currentTimeMillis();
 			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
-
+			mainClock++;
 			try {
 				Thread.sleep((1000/60) - processTime);
 			} catch (InterruptedException e) {
