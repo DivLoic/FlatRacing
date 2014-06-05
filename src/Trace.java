@@ -42,7 +42,6 @@ public class Trace {
 	
 	public void draw(Graphics2D g){
 		if(available == false){
-			
 			Ellipse2D.Double shape = new Ellipse2D.Double(this.blackX-this.blackSize, this.blackY-this.blackSize, this.blackSize*2, this.blackSize*2);
 			g.setColor(Color.BLACK);
 			g.fill(shape);
