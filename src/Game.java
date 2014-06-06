@@ -1,6 +1,5 @@
 import javax.swing.JFrame;
 
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -10,6 +9,7 @@ public class Game extends JFrame {
 	public static boolean skipMenu = false ;
 	public static int choiceMenu;
 	public static int mainClock = 0;
+	public static int gameDuration = 180;
 
 
 	public Game(int width, int height) {
@@ -85,7 +85,13 @@ public class Game extends JFrame {
 			subGame.repaint();
 			long endTime = System.currentTimeMillis();
 			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
+			
+			if(mainClock % 60 == 0) {
+				gameDuration--;
+			}
+			
 			mainClock++;
+			
 			try {
 				Thread.sleep((1000/60) - processTime);
 			} catch (InterruptedException e) {

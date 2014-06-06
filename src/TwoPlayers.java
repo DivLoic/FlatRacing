@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -26,12 +28,11 @@ public class TwoPlayers extends JPanel {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 		
+		this.printTime(Game.gameDuration, g2d);
 		
 		allMeteors.controller(tunnel, g2d);
 		ship1.controller(tunnel, ship2, g2d, allMeteors ,true);
 		ship2.controller(tunnel, ship1, g2d, allMeteors ,false);
-		
-		Game.mainClock++;
 
 		tunnel.controller(g2d);
 		
@@ -39,6 +40,27 @@ public class TwoPlayers extends JPanel {
 		g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
 		g.setColor(Parameters.DEFAULT_COLOR);
 
+	}
+	
+	private void printTime(int duration, Graphics2D g) {
+		int min = duration / 60;
+		int sec = duration % 60;
+		
+		String secStr = "" + sec;
+
+		if(sec < 10) {
+			secStr = "0" + sec;
+		}
+
+		String time = "[ " + min + ":" + secStr + " ]";
+		
+		Font myFont = new Font("Arial", Font.BOLD, 16);
+		g.setFont(myFont);
+		
+		FontMetrics fm = g.getFontMetrics(myFont);
+		int lengthStringTime = fm.stringWidth(time);
+		
+		g.drawString(time, Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
 	}
 	
 }
