@@ -4,6 +4,10 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 
@@ -84,7 +88,7 @@ public class Ship {
 			Game.joystick.addKey(code);
 		}
 		
-		for(int i= 0; i< 20; i++){
+		for(int i= 0; i< 40; i++){
 			this.flash.add(new Trace());
 		}
 	}
@@ -283,7 +287,46 @@ public class Ship {
 		}
 	}
 	
-	private void print(Graphics2D g) {
+	public void getNetPos(ObjectInputStream in,boolean isfirst) {
+		double[] acc = new double[3];
+		try {
+			 acc = (double[]) in.readObject();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(isfirst && acc[0] == 1){
+			this.x = acc[1]; 
+			this.y = acc[2];
+		} else if(!isfirst && acc[0] == 2){
+			this.x = acc[1]; 
+			this.y = acc[2];
+		}
+		
+	}
+	
+	public void sendNetPos(ObjectOutputStream out, boolean isfirst) {
+		double [] d = {0,this.x, this.y};
+		if(isfirst){
+			d[0] = 1;
+		}else{
+			d[0] = 2;
+		}
+		
+		try {
+			out.writeObject(d);
+			out.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void print(Graphics2D g) {
 		Ellipse2D.Double shape = new Ellipse2D.Double(this.x-this.r, this.y-this.r, this.r*2, this.r*2);
 		
 		if(!this.invincibility) {
@@ -329,7 +372,7 @@ public class Ship {
 			if( meteors.meteorPool.get(i).getAvailable() == false) {
 				if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
 					double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
-	
+
 					this.lives--;
 					this.invincibility = true;
 					meteors.switchOff(i);
@@ -341,7 +384,25 @@ public class Ship {
 		}
 		
 	}
-	
+	public void controllerEffect(Tunnel tunnel, Graphics2D g, boolean leftOrRight){
+		this.scoreCalculator(g, leftOrRight);
+		this.collisionTunnel(tunnel);
+		this.checkInvincibility();
+			if(Game.mainClock % 1 == 0){
+				this.setTrace();
+			}else{
+				
+			}
+		for(int i = 0; i < this.flash.size(); i++){
+			if(this.flash.get(i).getAvailable() == false){
+				this.flash.get(i).growNet();
+				this.flash.get(i).draw(g);
+				if(this.flash.get(i).blackSize <= 0.2){ //whiteSize
+					this.flash.get(i).stop();
+				}
+			}
+		}
+	}
 	
 	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors, boolean leftOrRight) {
 		this.drive();

@@ -8,6 +8,7 @@ import javax.swing.*;
 
 public class Menu extends JPanel {
 	
+	public boolean networkRequest = false;
 	Tunnel tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), 200);
 	ButtonManager jbm = new ButtonManager();
 	@Override
@@ -24,7 +25,7 @@ public class Menu extends JPanel {
 		g2d.setRenderingHints(rh);
 		
 		tunnel.controller(g2d);
-		jbm.controller(g2d);
+		jbm.controller(g2d, this);
 
 	}
 	

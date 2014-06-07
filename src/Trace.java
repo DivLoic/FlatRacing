@@ -51,5 +51,10 @@ public class Trace {
 	public void grow(){
 		blackSize = blackSize - 0.3;
 	}
+	
+	public void growNet(){
+			blackSize = blackSize - 0.5;
+		
+	}
 
 }

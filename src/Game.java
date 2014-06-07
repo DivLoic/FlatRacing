@@ -1,8 +1,9 @@
 import javax.swing.JFrame;
 
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Game extends JFrame {
 
@@ -10,6 +11,10 @@ public class Game extends JFrame {
 	public static boolean skipMenu = false ;
 	public static int choiceMenu;
 	public static int mainClock = 0;
+	
+	
+	public static ObjectInputStream in;
+	public static ObjectOutputStream out;
 
 
 	public Game(int width, int height) {
@@ -51,6 +56,7 @@ public class Game extends JFrame {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			
 		}
 	}		
 
@@ -74,6 +80,24 @@ public class Game extends JFrame {
 		}
 	}
 
+	private void launchServer(){
+		Server server = new Server();
+		this.setContentPane(server);
+		this.setVisible(true);
+
+		while(true) {
+			long startTime = System.currentTimeMillis();
+			server.repaint();
+			long endTime = System.currentTimeMillis();
+			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
+			mainClock++;
+			try {
+				Thread.sleep((1000/60) - processTime);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	private void launchTwoPlayers() {
 		TwoPlayers subGame = new TwoPlayers();
@@ -94,6 +118,26 @@ public class Game extends JFrame {
 		}
 	}
 
+	
+	private void launchNet(ObjectOutputStream o , ObjectInputStream i ) {
+		NetPlayer net = new NetPlayer(o , i, Connection.firstPlayer);
+		
+		this.getContentPane().add(net);
+		this.setContentPane(net);
+		this.setVisible(true);
+		while(true) {
+			long startTime = System.currentTimeMillis();
+			net.repaint();
+			long endTime = System.currentTimeMillis();
+			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
+		
+			try {
+				Thread.sleep((1000/60) - processTime);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	public static void main(String[] args) {
 
 		Game FlatRacing = new Game(Parameters.WINDOW_MAX_WIDTH, Parameters.WINDOW_MAX_HEIGHT);
@@ -106,6 +150,12 @@ public class Game extends JFrame {
 			case 1:
 				FlatRacing.launchTwoPlayers();
 			break;
+			case 2:
+				FlatRacing.launchNet(out, in);
+			break;
+			case 3:
+				FlatRacing.launchServer();
+				break;
 			default:
 				// ˆsuivre
 			break;

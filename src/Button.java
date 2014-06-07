@@ -11,24 +11,25 @@ public class Button{
 	private int posY;
 	private boolean option;
 	public boolean selected;
-	
+	private Color color;
 	public Button(boolean leftArrow){
 		
 	}
 	
-	public Button(String txt, int X, int Y, boolean selec){
+	public Button(String txt, int X, int Y, boolean selec, Color color ){
 		this.option = true;
 		this.text = txt;
 		this.posX = X;
 		this.posY = Y;
 		this.selected = selec;
+		this.color = color;
 	}
 	
 	public void draw(Graphics2D g) {
 		if(option){
 				g.fillRoundRect(posX, posY, 110, 40, 10, 10);
-			if(selected){
-				g.setColor(new Color(176,95,35));
+			 if(selected){
+				g.setColor(this.color);//new Color(176,95,35)
 			}else {
 				g.setColor(new Color(73,73,73));
 			}

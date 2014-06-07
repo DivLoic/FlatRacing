@@ -33,6 +33,7 @@ public class Parameters {
 	public static final double REMAINS_SIZE = 5;
 	public static final int REMAINS_PER_IMPACT = 20;
 	
-
+	
+	public static final int FIRST_PORT = 3333;
 	
 }
