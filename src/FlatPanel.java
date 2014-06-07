@@ -11,7 +11,7 @@ public abstract class FlatPanel extends JPanel{
 	public abstract void personalController(Graphics2D g2d );
 	
 	public FlatPanel() {
-		buildElements();
+		this.buildElements();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -25,7 +25,7 @@ public abstract class FlatPanel extends JPanel{
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 		
-		personalController(g2d);
+		this.personalController(g2d);
 		
 	}
 	

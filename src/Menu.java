@@ -1,10 +1,6 @@
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import javax.swing.*;
-
 
 public class Menu extends FlatPanel {
 	
@@ -24,7 +20,5 @@ public class Menu extends FlatPanel {
 		tunnel.controller(g);
 		jbm.controller(g);
 	}
-
-
 	
 }

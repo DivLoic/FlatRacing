@@ -335,7 +335,7 @@ public class Ship {
 					this.lives--;
 					this.invincibility = true;
 					meteors.switchOff(i);
-					this.remains.lauch(this.x, this.y);
+					this.remains.launch(this.x, this.y);
 					this.vx = -Parameters.METEOR_MAX_SPEED/8 * meteors.meteorPool.size();
 					
 				}

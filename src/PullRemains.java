@@ -118,7 +118,7 @@ public class PullRemains {
 		}
 	}
 	
-	public void lauch(double x ,double y) {
+	public void launch(double x ,double y) {
 		int q = 0;
 		for(int i = 0; i < rem.size(); i++){
 			if(rem.get(i).getAvailable()){
