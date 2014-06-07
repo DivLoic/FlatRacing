@@ -48,7 +48,6 @@ public class Game extends JFrame {
 			case 2:
 				Launcher TwoPlayers = new Launcher(FlatRacing, new TwoPlayers(),2);
 				TwoPlayers.loop();
-
 			case 3:
 
 			default:

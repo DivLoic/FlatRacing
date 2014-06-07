@@ -1,20 +1,22 @@
-
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import javax.swing.*;
+
+import javax.swing.JPanel;
 
 
-public class Menu extends JPanel {
+public abstract class FlatPanel extends JPanel{
+
+	public abstract void buildElements();
+	public abstract void personalController(Graphics2D g2d );
 	
-	Tunnel tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), 200);
-	ButtonManager jbm = new ButtonManager();
-	@Override
+	public FlatPanel() {
+		buildElements();
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		
-		g.setColor(Color.WHITE);
+		g.setColor(Parameters.BACKGROUND_COLOR);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g.setColor(Parameters.DEFAULT_COLOR);
 		
@@ -23,11 +25,8 @@ public class Menu extends JPanel {
 		rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2d.setRenderingHints(rh);
 		
-		tunnel.controller(g2d);
-		jbm.controller(g2d);
-
+		personalController(g2d);
+		
 	}
-	
-
 	
 }
