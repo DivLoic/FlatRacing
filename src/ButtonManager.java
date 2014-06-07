@@ -48,11 +48,12 @@ public class ButtonManager {
 		if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b1.selected && !step2){
 			slideToplay();
 		}else if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b2.selected && step2){
-			Game.skipMenu = true;
-			Game.choiceMenu = 1;
+			
+			Game.mode = 2;
+
 		}else if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b1.selected && step2){
-			Game.skipMenu = true;
-			Game.choiceMenu = 0;
+
+			Game.mode = 1;
 		}
 		
 	}

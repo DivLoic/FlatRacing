@@ -6,8 +6,7 @@ import java.awt.event.KeyListener;
 public class Game extends JFrame {
 
 	public static Keyboard joystick = new Keyboard();
-	public static boolean skipMenu = false ;
-	public static int choiceMenu;
+	public static int mode;
 	public static int mainClock = 0;
 	public static int gameDuration = 180;
 
@@ -33,85 +32,25 @@ public class Game extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	private void lauchMenu(){
-		Menu selectMenu = new Menu();
-		this.getContentPane().add(selectMenu);
-		this.setContentPane(selectMenu);
-		this.setVisible(true);
-		
-
-		while(!skipMenu) {
-			long startTime = System.currentTimeMillis();
-			selectMenu.repaint();
-			long endTime = System.currentTimeMillis();
-			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
-			
-			try {
-				Thread.sleep((1000/60) - processTime);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}		
-
-	private void launchOnePlayer() {
-		OnePlayer subGame = new OnePlayer();
-		
-		this.getContentPane().add(subGame);
-		this.setContentPane(subGame);
-		this.setVisible(true);
-		while(true) {
-			long startTime = System.currentTimeMillis();
-			subGame.repaint();
-			long endTime = System.currentTimeMillis();
-			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
-		
-			try {
-				Thread.sleep((1000/60) - processTime);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-
-	private void launchTwoPlayers() {
-		TwoPlayers subGame = new TwoPlayers();
-		this.setContentPane(subGame);
-		this.setVisible(true);
-
-		while(true) {
-			long startTime = System.currentTimeMillis();
-			subGame.repaint();
-			long endTime = System.currentTimeMillis();
-			long processTime = endTime - startTime > 1000/60 ? 1000/60 : endTime - startTime;
-			
-			if(mainClock % 60 == 0) {
-				gameDuration--;
-			}
-			
-			mainClock++;
-			
-			try {
-				Thread.sleep((1000/60) - processTime);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
+	
 	public static void main(String[] args) {
 
 		Game FlatRacing = new Game(Parameters.WINDOW_MAX_WIDTH, Parameters.WINDOW_MAX_HEIGHT);
 		
-		FlatRacing.lauchMenu();
-		switch(choiceMenu){
+			
+		switch(mode){
 			case 0:
-				FlatRacing.launchOnePlayer();
-			break;
+				Launcher Menu = new Launcher(FlatRacing, new Menu(),0);
+				Menu.loop();
 			case 1:
-				FlatRacing.launchTwoPlayers();
-			break;
+				Launcher OnePlayer = new Launcher(FlatRacing, new OnePlayer(),1);
+				OnePlayer.loop();
+			case 2:
+				Launcher TwoPlayers = new Launcher(FlatRacing, new TwoPlayers(),2);
+				TwoPlayers.loop();
+
+			case 3:
+
 			default:
 				// ˆsuivre
 			break;

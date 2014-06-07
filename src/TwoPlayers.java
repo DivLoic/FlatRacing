@@ -19,6 +19,11 @@ public class TwoPlayers extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
+		if(Game.mainClock % 60 == 0) {
+			Game.gameDuration--;
+		}
+			Game.mainClock++;
+		
 		g.setColor(Parameters.BACKGROUND_COLOR);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g.setColor(Parameters.DEFAULT_COLOR);
