@@ -234,6 +234,29 @@ public class Ship {
 		}
 	}
 	
+	
+	private void collisionMeteor(MeteorShawer meteors){
+		for(int i = 1; i < meteors.meteorPool.size(); i++ ) {
+			if( meteors.meteorPool.get(i).getAvailable() == false) {
+				if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
+					double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
+					
+					if(!this.invincibility) {
+						this.lives--;
+						this.invincibility = true;
+					}
+						
+					meteors.switchOff(i);
+					this.remains.launch(this.x, this.y);
+					this.vx = -Parameters.METEOR_MAX_SPEED/8 * meteors.meteorPool.size();
+					
+				}
+			}
+		}
+		
+	}
+	
+	
 	private void scoreCalculator(Graphics2D g) {
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
@@ -399,24 +422,6 @@ public class Ship {
 			this.setTrace();
 		}else{
 			
-		}
-		
-	}
-	
-	private void collisionMeteor(MeteorShawer meteors){
-		for(int i = 1; i < meteors.meteorPool.size(); i++ ) {
-			if( meteors.meteorPool.get(i).getAvailable() == false) {
-				if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
-					double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
-	
-					this.lives--;
-					this.invincibility = true;
-					meteors.switchOff(i);
-					this.remains.launch(this.x, this.y);
-					this.vx = -Parameters.METEOR_MAX_SPEED/8 * meteors.meteorPool.size();
-					
-				}
-			}
 		}
 		
 	}
