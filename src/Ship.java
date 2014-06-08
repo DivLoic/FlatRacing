@@ -28,8 +28,8 @@ public class Ship {
 	private double r;
 	private Color color;
 	
-	private int lives;
-	private int score;
+	protected int lives;
+	protected int score;
 
 	private boolean invincibility;
 	private int invincibilityClock;
@@ -40,7 +40,7 @@ public class Ship {
 	private int right;
 	private int down;
 	private int left;
-	
+	private boolean isWinner = false;
 	
 	private ArrayList<Trace> flash = new ArrayList<Trace>() ;
 	private PullRemains remains = new PullRemains(); 
@@ -261,7 +261,79 @@ public class Ship {
 		}
 	}
 	
+<<<<<<< HEAD
 	private void checkLives(Graphics2D g) {
+=======
+	public void finalScore(Graphics2D g, boolean leftOrRight, Ship ennemy){ 
+		Font myFont = new Font("Arial", Font.BOLD, 16);
+		g.setFont(myFont);
+		
+		FontMetrics fm = g.getFontMetrics(myFont);
+		int lengthStringScore = fm.stringWidth("Score : ");
+		int lengthMyScore = fm.stringWidth("" + this.score + " + " + this.lives + " x10");
+		
+		g.setColor(Parameters.DEFAULT_COLOR);
+		
+		if(leftOrRight) {
+			g.drawString("Score : ", 10, Parameters.SCREEN_MAX_HEIGHT + 50);
+			g.setColor(this.color);
+			g.drawString("" + this.score + " + " + this.lives + " x10", 10 +lengthStringScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+		} else {
+			g.drawString("Score : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyScore-lengthStringScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+			g.setColor(this.color);
+			g.drawString("" + this.score + " + " + this.lives + " x10", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+		}
+		
+		g.setColor(Parameters.DEFAULT_COLOR);
+		
+		if(Game.mainClock % 20 == 0) {
+			this.score += (int)(10 * (11 - ((Math.log((Parameters.SCREEN_MAX_WIDTH - this.x)) / Math.log(Parameters.SCREEN_MAX_WIDTH) * 10))));
+		}
+		myFont = new Font("Arial", Font.BOLD, 16);
+		g.setFont(myFont);
+		
+		fm = g.getFontMetrics(myFont);
+		if(!this.isWinner){
+			int lengthStringLives = fm.stringWidth("Lives : ");
+			int lengthMyLives = fm.stringWidth(" LOOSE ");	
+			g.setColor(Parameters.DEFAULT_COLOR);
+			
+			if(leftOrRight) {
+				g.drawString("You : ", 10, Parameters.SCREEN_MAX_HEIGHT + 25);
+				g.setColor(this.color);
+				g.drawString("LOOSE", 10 +lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+			} else {
+				g.drawString("You : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives-lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+				g.setColor(this.color);
+				g.drawString("LOOSE", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+			}
+			
+			g.setColor(Parameters.DEFAULT_COLOR);
+		} else {
+			int lengthStringLives = fm.stringWidth("Lives : ");
+			int lengthMyLives = fm.stringWidth(" LOOSE ");	
+			g.setColor(Parameters.DEFAULT_COLOR);
+			
+			if(leftOrRight) {
+				g.drawString("You : ", 10, Parameters.SCREEN_MAX_HEIGHT + 25);
+				g.setColor(this.color);
+				g.drawString(" WIN ", 10 +lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+			} else {
+				g.drawString("You : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives-lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+				g.setColor(this.color);
+				g.drawString(" WIN ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+			}
+			
+		}
+		
+		
+		
+	}
+	
+	
+	
+	private void checkLives(Graphics2D g, boolean leftOrRight) {
+>>>>>>> FETCH_HEAD
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
 		
@@ -295,7 +367,7 @@ public class Ship {
 		}
 	}
 	
-	private void print(Graphics2D g) {
+	protected void print(Graphics2D g) {
 		Ellipse2D.Double shape = new Ellipse2D.Double(this.x-this.r, this.y-this.r, this.r*2, this.r*2);
 		
 		if(!this.invincibility) {
@@ -314,9 +386,8 @@ public class Ship {
 		g.setStroke(new BasicStroke(3.2f));
 		g.draw(shape);
 	}
+
 	
-
-
 	public void setTrace(){
 		for(int i = 0; i < this.flash.size(); i++){
 			if(flash.get(i).getAvailable() == true){
@@ -355,7 +426,15 @@ public class Ship {
 	}
 	
 	
+<<<<<<< HEAD
 	public void controller(Tunnel tunnel, Ship[] allShips, MeteorShawer meteors, Graphics2D g, boolean leftOrRight) {
+=======
+	public void getVictory(){
+		this.isWinner = true;
+	}
+	
+	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors, boolean leftOrRight) {
+>>>>>>> FETCH_HEAD
 		this.drive();
 		this.move();
 		

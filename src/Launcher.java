@@ -20,17 +20,18 @@ public class Launcher {
 		public void loop(){
 			
 			if(!panel.whithBreak) {
-				while(Game.mode == this.mode) {
+				while(Game.mode == this.mode ) {
 					this.action();
 				}
 			} else {
-			
-			while(Game.mode == this.mode) {
+				while(Game.mode == this.mode ) {
 				 if(!Game.gameBreak ){
 					this.action();
 				 	}
 				}
 			}
+			
+			
 		}
 		
 		public void action() {

@@ -47,5 +47,11 @@ public class OnePlayer extends FlatPanel {
 
 
 	}
+
+	@Override
+	public void endingController(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
