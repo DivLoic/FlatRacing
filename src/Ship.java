@@ -169,7 +169,7 @@ public class Ship {
 		this.vy *= this.frictY;
 	}
 	
-	private void collisionTunnel(Tunnel tunnel) {
+	protected void collisionTunnel(Tunnel tunnel) {
 		int l = (int)Math.round(this.x);
 		int m = (int)Math.round(this.x - this.r);
 		int n = (int)Math.round(this.x + this.r);

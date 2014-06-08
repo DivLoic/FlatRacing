@@ -146,7 +146,6 @@ class acceptClient implements Runnable {
 			    this.out = new ObjectOutputStream(socket.getOutputStream());
                 this.in = new ObjectInputStream(socket.getInputStream());
                 in.readBoolean();
-                
                 out.writeObject(Server.pointsTop);
                 out.reset();
                 in.readBoolean();
@@ -165,6 +164,8 @@ class acceptClient implements Runnable {
                              
                             }
                         }
+                        
+                        System.out.print("EEEEEEEEEEEEEEEEEEEEEEEEEEE");
             try {
                 if(Server.firstplayer){
                 	out.writeBoolean(Server.firstplayer);

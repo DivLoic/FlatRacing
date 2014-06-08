@@ -115,7 +115,8 @@ public class NetPlayer extends JPanel {
 		
 		
 		
-		ship1.controller(tunnel, shipdistant, g2d, allMeteors ,true);
+		ship1.controller(tunnelNet, shipdistant, g2d, allMeteors ,true);
+		shipdistant.collisionTunnel(tunnelNet);
 		shipdistant.controllerEffect(tunnel, g2d ,false);
 		shipdistant.print(g2d);
 		
