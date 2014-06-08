@@ -48,7 +48,7 @@ public class TwoPlayers extends FlatPanel {
 		this.allShips = new Ship[]{
 				new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT}, true, 25),
 				new Ship(150, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(147,76,147), 20, new int[]{KeyEvent.VK_Z, KeyEvent.VK_D,  KeyEvent.VK_S, KeyEvent.VK_Q}, false, 25),
-				//new Ship(200, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(127,16,147), 20, new int[]{KeyEvent.VK_U, KeyEvent.VK_K,  KeyEvent.VK_H, KeyEvent.VK_J}, true, 70)
+				new Ship(200, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(127,16,147), 20, new int[]{KeyEvent.VK_U, KeyEvent.VK_H,  KeyEvent.VK_K, KeyEvent.VK_K}, true, 70)
 		};
 		
 		this.whithBreak = true;
@@ -77,19 +77,19 @@ public class TwoPlayers extends FlatPanel {
 			g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
 			g.setColor(Parameters.DEFAULT_COLOR);
 
-			if( this.gameDuration <= 0 || this.ship1.lives <= 0 || this.ship2.lives <= 0 ) {
+			if( this.gameDuration <= 0 || this.allShips[0].lives <= 0 || this.allShips[1].lives <= 0 ) {
 				this.gameOver = true;
 				if(this.gameDuration <= 0){
-					if(this.ship1.lives * this.ship1.lives*this.ship1.score > this.ship2.lives * this.ship2.lives*this.ship2.score){
-						this.ship1.getVictory();
+					if(this.allShips[0].lives * this.allShips[0].lives*this.allShips[0].score > this.allShips[1].lives * this.allShips[1].lives*this.allShips[1].score){
+						this.allShips[0].getVictory();
 					} else {
-						this.ship2.getVictory();
+						this.allShips[1].getVictory();
 					}
 				} else {
-					if(this.ship1.lives == 0){
-						this.ship2.getVictory();
+					if(this.allShips[0].lives == 0){
+						this.allShips[1].getVictory();
 					} else {
-						this.ship1.getVictory();
+						this.allShips[0].getVictory();
 					}
 				}
 			}
@@ -99,11 +99,12 @@ public class TwoPlayers extends FlatPanel {
 	public void endingController(Graphics2D g2d) {
 		// TODO Auto-generated method stub
 		tunnel.print(g2d);
-		this.ship1.print(g2d);
-		this.ship2.print(g2d);
 		
-		this.ship1.finalScore(g2d, true, ship2);
-		this.ship2.finalScore(g2d, false, ship2);
+		
+		for(int i = 0, n = this.allShips.length ; i < n ; i++) {
+			this.allShips[i].print(g2d);
+			this.allShips[i].finalScore(g2d, true);
+		}
 		
 		printTime(this.gameDuration, g2d);
 		

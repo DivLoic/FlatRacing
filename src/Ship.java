@@ -260,11 +260,8 @@ public class Ship {
 			this.score += (int)(10 * (11 - ((Math.log((Parameters.SCREEN_MAX_WIDTH - this.x)) / Math.log(Parameters.SCREEN_MAX_WIDTH) * 10))));
 		}
 	}
-	
-<<<<<<< HEAD
-	private void checkLives(Graphics2D g) {
-=======
-	public void finalScore(Graphics2D g, boolean leftOrRight, Ship ennemy){ 
+
+	public void finalScore(Graphics2D g, boolean leftOrRight){ 
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
 		
@@ -332,8 +329,7 @@ public class Ship {
 	
 	
 	
-	private void checkLives(Graphics2D g, boolean leftOrRight) {
->>>>>>> FETCH_HEAD
+	private void checkLives(Graphics2D g) {
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
 		
@@ -426,15 +422,13 @@ public class Ship {
 	}
 	
 	
-<<<<<<< HEAD
-	public void controller(Tunnel tunnel, Ship[] allShips, MeteorShawer meteors, Graphics2D g, boolean leftOrRight) {
-=======
+
 	public void getVictory(){
 		this.isWinner = true;
 	}
 	
-	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors, boolean leftOrRight) {
->>>>>>> FETCH_HEAD
+public void controller(Tunnel tunnel, Ship[] allShips, MeteorShawer meteors, Graphics2D g, boolean leftOrRight) {
+
 		this.drive();
 		this.move();
 		
