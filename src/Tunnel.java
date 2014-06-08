@@ -27,7 +27,7 @@ class PieceOfTunnel {
 		this.y = new double[this.size];
 		
 		this.oldSummit = initSummit;
-		this.targetPoint = new double[]{1, initSummit};
+		this.targetPoint = new double[]{150, initSummit};
 		
 		this.ground = ground;
 		
@@ -75,7 +75,7 @@ class PieceOfTunnel {
 		}
 		
 		if(Game.mainClock % (60 * 15) == 0) {
-			if(this.vx >= -8) {
+			if(this.vx >= -6) {
 				this.vx--;
 			}
 		}

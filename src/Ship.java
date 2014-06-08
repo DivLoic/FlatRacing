@@ -199,7 +199,7 @@ public class Ship {
 					
 					this.counterCollisionTunnel++;
 					
-					if(this.counterCollisionTunnel % 5 == 0) {
+					if(this.counterCollisionTunnel % 2 == 0) {
 						if(tunnel.top.vx <= -3) {
 							tunnel.top.vx++;
 							tunnel.bottom.vx++;
@@ -223,7 +223,7 @@ public class Ship {
 					
 					this.counterCollisionTunnel++;
 					
-					if(this.counterCollisionTunnel % 5 == 0) {
+					if(this.counterCollisionTunnel % 3 == 0) {
 						if(tunnel.bottom.vx <= -3) {
 							tunnel.top.vx++;
 							tunnel.bottom.vx++;
