@@ -103,7 +103,7 @@ public class TwoPlayers extends FlatPanel {
 		
 		for(int i = 0, n = this.allShips.length ; i < n ; i++) {
 			this.allShips[i].print(g2d);
-			this.allShips[i].finalScore(g2d, this.allShips[i].informationsLeftOrRight);
+			this.allShips[i].scoreCalculator(g2d);
 		}
 		
 		printTime(this.gameDuration, g2d);

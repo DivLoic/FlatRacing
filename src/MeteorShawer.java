@@ -53,7 +53,7 @@ class Meteor {
 		g.draw(shape);
 	}
 	
-	public void lauch(Tunnel tube) {
+	public void launch(Tunnel tube) {
 		this.available = false;
 		this.size = Parameters.METEOR_SIZE;
 		this.x = Parameters.SCREEN_MAX_WIDTH;
@@ -63,7 +63,7 @@ class Meteor {
 	
 
 	//SURCHARGE DE LA METHODE
-	public void lauch(double x, double y) {
+	public void launch(double x, double y) {
 		this.available = false;
 		this.x = x;
 		this.y = y;
@@ -104,7 +104,7 @@ public class MeteorShawer {
 	}
 	
 	private void switchOn(Tunnel tube, int i){
-		meteorPool.get(i).lauch(tube);
+		meteorPool.get(i).launch(tube);
 	}
 	
 	protected void switchOff(int i){
@@ -126,7 +126,7 @@ public class MeteorShawer {
 			if(meteorPool.get(i).getAvailable() == false && meteorPool.get(i).x > 1) {
 		
 				meteorPool.get(i).draw(g);
-				meteorPool.get(i).moveX(-Parameters.METEOR_MAX_SPEED);
+				meteorPool.get(i).moveX( tube.top.vx - 1);
 				if(meteorPool.get(i).x > Parameters.METEOR_SIZE) {
 					if( meteorPool.get(i).collision(tube)){
 						switchOff(i);

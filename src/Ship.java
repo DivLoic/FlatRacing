@@ -284,7 +284,7 @@ public class Ship {
 	}
 	
 	
-	private void scoreCalculator(Graphics2D g) {
+	protected void scoreCalculator(Graphics2D g) {
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
 		
@@ -307,7 +307,9 @@ public class Ship {
 		g.setColor(Parameters.DEFAULT_COLOR);
 		
 		if(Game.mainClock % 20 == 0) {
-			this.score += (int)(10 * (11 - ((Math.log((Parameters.SCREEN_MAX_WIDTH - this.x)) / Math.log(Parameters.SCREEN_MAX_WIDTH) * 10))));
+			if(this.x > 0){
+			this.score += (int)(10 * (10 - ((Math.log((Parameters.SCREEN_MAX_WIDTH - this.x)) / Math.log(Parameters.SCREEN_MAX_WIDTH) * 10))));
+			}
 		}
 	}
 
@@ -379,7 +381,7 @@ public class Ship {
 	
 	
 	
-	private void checkLives(Graphics2D g) {
+	protected void checkLives(Graphics2D g) {
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
 		
@@ -481,7 +483,7 @@ public void controller(Tunnel tunnel, Ship[] allShips, MeteorShawer meteors, Gra
 			if(this.flash.get(i).getAvailable() == false){
 				this.flash.get(i).grow();
 				this.flash.get(i).draw(g);
-				if(this.flash.get(i).blackSize <= 0.2){ //whiteSize
+				if(this.flash.get(i).size <= 0.2){ //whiteSize
 					this.flash.get(i).stop();
 				}
 			}
@@ -489,4 +491,49 @@ public void controller(Tunnel tunnel, Ship[] allShips, MeteorShawer meteors, Gra
 		this.print(g);
 	}
 	
+}
+
+
+class Trace {
+	
+	public double x, y, size;
+	private final double sizeInit = 7;
+	public boolean available;
+	
+	public Trace(){
+		this.size = sizeInit;
+		this.x = 0;
+		this.y = 0;
+		available= true;
+	}
+	
+	public boolean getAvailable(){
+		return this.available;
+	}
+	public void setter(double x, double y,double dx, double dy){
+		available = false;
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void stop(){
+		available = true;
+		size = sizeInit;
+
+		x = 0;
+		y = 0;
+	}
+	
+	public void draw(Graphics2D g){
+		if(available == false){
+			Ellipse2D.Double shape = new Ellipse2D.Double(this.x-this.size, this.y-this.size, this.size*2, this.size*2);
+			g.setColor(Color.BLACK);
+			g.fill(shape);
+		}
+	}
+	
+	public void grow(){
+		size = size - 0.3;
+	}
+
 }

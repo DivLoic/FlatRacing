@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -45,13 +47,42 @@ public class OnePlayer extends FlatPanel {
 			g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
 			g.setColor(Parameters.DEFAULT_COLOR);
 
-
+			if( this.allShips[0].lives <= 0 ) {
+				this.gameOver = true;
+			}
 	}
 
 	@Override
 	public void endingController(Graphics2D g2d) {
 		// TODO Auto-generated method stub
+tunnel.print(g2d);
 		
+		
+		for(int i = 0, n = this.allShips.length ; i < n ; i++) {
+			this.allShips[i].print(g2d);
+			this.allShips[i].checkLives(g2d);
+			this.allShips[i].scoreCalculator(g2d);
+		}
+		
+		printOver(g2d);
+		 
+		Graphics g = (Graphics) g2d;
+		g.setColor(Parameters.BACKGROUND_COLOR);
+		g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
+		g.setColor(Parameters.DEFAULT_COLOR);
+	}
+	
+	private void printOver(Graphics2D g) {
+
+		if(this.gameOver) {
+			Font myFont = new Font("Arial", Font.BOLD, 16);
+			g.setFont(myFont);
+			
+			FontMetrics fm = g.getFontMetrics(myFont);
+			int lengthStringTime = fm.stringWidth("GAME OVER");
+			g.drawString("GAME OVER", Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
+		}
+			
 	}
 	
 }
