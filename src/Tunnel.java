@@ -73,6 +73,12 @@ class PieceOfTunnel {
 		for(int i = 0 ; i < this.size ; i++) {
 			this.x[i] += this.vx * Parameters.DT;
 		}
+		
+		if(Game.mainClock % (60 * 15) == 0) {
+			if(this.vx >= -8) {
+				this.vx--;
+			}
+		}
 	}
 	
 }

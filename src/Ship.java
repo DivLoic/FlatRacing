@@ -34,6 +34,8 @@ public class Ship {
 	private boolean invincibility;
 	private int invincibilityClock;
 	
+	private int counterCollisionTunnel;
+	
 	private int[] keytab; 
 	
 	private int up;
@@ -75,6 +77,8 @@ public class Ship {
 		
 		this.invincibility = false;
 		this.invincibilityClock = 10;
+		
+		this.counterCollisionTunnel = 0;
 		
 		this.keytab = keytab;
 		
@@ -192,6 +196,18 @@ public class Ship {
 				if(!this.invincibility) {
 					this.lives--;
 					this.invincibility = true;
+					
+					this.counterCollisionTunnel++;
+					
+					if(this.counterCollisionTunnel % 5 == 0) {
+						if(tunnel.top.vx <= -3) {
+							tunnel.top.vx++;
+							tunnel.bottom.vx++;
+						}
+						
+						this.counterCollisionTunnel = 0;
+					}
+						
 				}
 			} else if(this.y >= tunnel.bottom.y[l] - this.r) {
 				double a = (tunnel.bottom.y[n-1] - tunnel.bottom.y[m]) / (n-m);
@@ -204,6 +220,17 @@ public class Ship {
 				if(!this.invincibility) {
 					this.lives--;
 					this.invincibility = true;
+					
+					this.counterCollisionTunnel++;
+					
+					if(this.counterCollisionTunnel % 5 == 0) {
+						if(tunnel.bottom.vx <= -3) {
+							tunnel.top.vx++;
+							tunnel.bottom.vx++;
+						}
+						
+						this.counterCollisionTunnel = 0;
+					}
 				}
 			}
 		}

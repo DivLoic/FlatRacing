@@ -42,7 +42,7 @@ public class TwoPlayers extends FlatPanel {
 	@Override
 	public void buildElements() {
 		// TODO Auto-generated method stub
-		this.tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), Parameters.MIN_THRESHOLD);
+		this.tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -3, 25, new Color(73,73,73), new Color(73,73,73), Parameters.MIN_THRESHOLD);
 		this.allMeteors = new MeteorShawer(); 
 		
 		this.allShips = new Ship[]{
