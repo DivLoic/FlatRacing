@@ -55,15 +55,13 @@ public class OnePlayer extends FlatPanel {
 	@Override
 	public void endingController(Graphics2D g2d) {
 		// TODO Auto-generated method stub
-tunnel.print(g2d);
-		
-		
+		tunnel.print(g2d);
+
 		for(int i = 0, n = this.allShips.length ; i < n ; i++) {
 			this.allShips[i].print(g2d);
 			this.allShips[i].checkLives(g2d);
 			this.allShips[i].scoreCalculator(g2d);
 		}
-		
 		printOver(g2d);
 		 
 		Graphics g = (Graphics) g2d;
