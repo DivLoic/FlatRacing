@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 public abstract class FlatPanel extends JPanel{
 	public boolean whithBreak = false;
 	public boolean gameOver  = false;
+	public int gameDuration = 180;
 	public abstract void buildElements();
 	public abstract void personalController(Graphics2D g2d );
 	public abstract void endingController(Graphics2D g2d );

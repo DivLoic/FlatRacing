@@ -9,7 +9,7 @@ public class Game extends JFrame {
 	public static int mode;
 	public static boolean gameBreak = false;
 	public static int mainClock = 0;
-	public static int gameDuration = 180;
+
 
 
 	public Game(int width, int height) {

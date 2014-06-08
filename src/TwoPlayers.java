@@ -53,7 +53,7 @@ public class TwoPlayers extends FlatPanel {
 	public void personalController(Graphics2D g2d) {
 		// TODO Auto-generated method stub
 		if(Game.mainClock % 60 == 0) {
-			Game.gameDuration--;
+			this.gameDuration--;
 		}
 			Game.mainClock++;
 			
@@ -62,16 +62,16 @@ public class TwoPlayers extends FlatPanel {
 			this.ship2.controller(tunnel, ship1, g2d, allMeteors ,false);
 			tunnel.controller(g2d);
 			
-			this.printTime(Game.gameDuration, g2d);
+			this.printTime(this.gameDuration, g2d);
 			
 			Graphics g = (Graphics) g2d;
 			g.setColor(Parameters.BACKGROUND_COLOR);
 			g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
 			g.setColor(Parameters.DEFAULT_COLOR);
 
-			if(  Game.gameDuration <= 0 || this.ship1.lives <= 0 || this.ship2.lives <= 0 ) {
+			if( this.gameDuration <= 0 || this.ship1.lives <= 0 || this.ship2.lives <= 0 ) {
 				this.gameOver = true;
-				if(Game.gameDuration <= 0){
+				if(this.gameDuration <= 0){
 					if(this.ship1.lives * this.ship1.lives*this.ship1.score > this.ship2.lives * this.ship2.lives*this.ship2.score){
 						this.ship1.getVictory();
 					} else {
@@ -97,7 +97,7 @@ public class TwoPlayers extends FlatPanel {
 		this.ship1.finalScore(g2d, true, ship2);
 		this.ship2.finalScore(g2d, false, ship2);
 		
-		printTime(Game.gameDuration, g2d);
+		printTime(this.gameDuration, g2d);
 		
 		Graphics g = (Graphics) g2d;
 		g.setColor(Parameters.BACKGROUND_COLOR);
