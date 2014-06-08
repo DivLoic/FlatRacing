@@ -28,10 +28,15 @@ public class Server extends JPanel
 	public static boolean starter1 = false;
 	public static boolean starter2 = false;
 	
+	protected static double[][] pointsTop;
+	protected static double[][] pointsBottom;
+	
     public static boolean firstplayer =true;
 	private ServerSocket server;
 	private Thread t1, t2;
-	Tunnel tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), 200);
+	
+	
+
 	private int port = Parameters.FIRST_PORT;
 	private boolean serverSetted = false;
 	private String host;
@@ -39,6 +44,7 @@ public class Server extends JPanel
 	public Server(){
 		while(!serverSetted){
 			try{
+				buildElements();
 				server = new ServerSocket(port,0);
 				serverSetted = true;
 				System.out.println("Radar en place");
@@ -61,9 +67,25 @@ public class Server extends JPanel
 	}
 	
 	
+	public void buildElements() {
+		
+		int nbPoints = 500;
+
+		this.pointsTop = new double[nbPoints][2];
+		this.pointsBottom = new double[nbPoints][2];
+		
+		TunnelNetwork.initPoints(pointsTop, pointsBottom);
+		
+		//this.tunnel = new TunnelNetwork(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), Parameters.MIN_THRESHOLD, pointsTop, pointsBottom);
+		
+		//this.allMeteors = new MeteorShawer(); 
+		//this.ship1 = new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT});
+		//this.ship2 = new Ship(150, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(147,76,147), 20, new int[]{KeyEvent.VK_Z, KeyEvent.VK_D,  KeyEvent.VK_S, KeyEvent.VK_Q});
+
+	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.print("\n"+Server.Gamer1[0] +" azerty "+Server.Gamer1[1] +"azerty  "+Server.Gamer2[0] +"azerty "+Server.Gamer2[1]);
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		g.setColor(Parameters.DEFAULT_COLOR);
@@ -121,20 +143,21 @@ class acceptClient implements Runnable {
 		// TODO Auto-generated method stub
 			try {
 				socket = server.accept();
+			    this.out = new ObjectOutputStream(socket.getOutputStream());
+                this.in = new ObjectInputStream(socket.getInputStream());
+                in.readBoolean();
+                
+                out.writeObject(Server.pointsTop);
+                out.reset();
+                in.readBoolean();
+                out.writeObject(Server.pointsBottom);
+                in.readBoolean();
                 Server.ready();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-                        
-                        try {
-                            this.out = new ObjectOutputStream(socket.getOutputStream());
-                            this.in = new ObjectInputStream(socket.getInputStream());
-                            
-                        } catch (IOException ex) {
-                
-                        }
-                        
+
                         while(!Thread.currentThread().isInterrupted()){
                             if(Server.starter1 && Server.starter2){
                                 Thread.currentThread().interrupt();

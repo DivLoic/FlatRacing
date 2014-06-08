@@ -64,12 +64,19 @@ public class Connection implements Runnable{
 			out = new ObjectOutputStream(socket.getOutputStream());;
 			in = new ObjectInputStream(socket.getInputStream());;
 			System.out.print("\nConnection Etablit");
+			out.writeBoolean(true);
+			NetPlayer.tunnelup = (double[][]) in.readObject();
+			out.writeBoolean(true);
+			NetPlayer.tunneldown = (double[][]) in.readObject();
 			IpAdress.setLabel("waiting for ennemy...");
-			
+			out.writeBoolean(true);
 			
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		};
 		
 		try {

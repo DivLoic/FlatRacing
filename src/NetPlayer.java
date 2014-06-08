@@ -63,12 +63,17 @@ class PlayerDownLink implements Runnable {
 }
 
 
-public class NetPlayer extends JPanel{
+public class NetPlayer extends JPanel {
 
 	ObjectOutputStream out;
 	ObjectInputStream in;
-	private Thread t;
 	
+	public static double [][] tunnelup;
+	public static double [][] tunneldown;
+	
+	
+	private Thread t;
+	TunnelNetwork tunnelNet = new TunnelNetwork(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), Parameters.MIN_THRESHOLD, this.tunnelup, this.tunneldown); 
 	Tunnel tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), Parameters.MIN_THRESHOLD);
 	MeteorShawer allMeteors = new MeteorShawer(); 
 	public Ship ship1 ;
@@ -79,6 +84,7 @@ public class NetPlayer extends JPanel{
 	public NetPlayer(ObjectOutputStream o, ObjectInputStream i, boolean isfirst) {
 		this.out = o;
 		this.in = i ;
+		
 		if (isfirst){
 			ship1 = new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT});
 			shipdistant = new Ship(150, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(147,76,147), 20, new int[]{0, 0,  0, 0});	
@@ -94,6 +100,7 @@ public class NetPlayer extends JPanel{
 		tup.start();
 		tdown.start();
 	}
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -114,10 +121,11 @@ public class NetPlayer extends JPanel{
 		
 		Game.mainClock++;
 
-		//tunnel.controller(g2d);
+		tunnelNet.controller(g2d);
 		
 		g.setColor(Parameters.BACKGROUND_COLOR);
 		g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
 		g.setColor(Parameters.DEFAULT_COLOR);
 	}
 }
+
