@@ -27,5 +27,11 @@ public class OnePlayer extends FlatPanel {
 		//p.spread();
 		//ship1.controller(tunnel,ship1,g2d);
 	}
+
+	@Override
+	public void endingController(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

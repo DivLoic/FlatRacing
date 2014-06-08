@@ -28,10 +28,15 @@ public class TwoPlayers extends FlatPanel {
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
 		
-		FontMetrics fm = g.getFontMetrics(myFont);
-		int lengthStringTime = fm.stringWidth(time);
-		
-		g.drawString(time, Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
+		if(!this.gameOver) {
+			FontMetrics fm = g.getFontMetrics(myFont);
+			int lengthStringTime = fm.stringWidth(time);
+			g.drawString(time, Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
+		} else {
+			FontMetrics fm = g.getFontMetrics(myFont);
+			int lengthStringTime = fm.stringWidth("GAME OVER");
+			g.drawString("GAME OVER", Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
+		}
 	}
 
 	@Override
@@ -64,7 +69,42 @@ public class TwoPlayers extends FlatPanel {
 			g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
 			g.setColor(Parameters.DEFAULT_COLOR);
 
-
+			if(  Game.gameDuration <= 0 || this.ship1.lives <= 0 || this.ship2.lives <= 0 ) {
+				this.gameOver = true;
+				if(Game.gameDuration <= 0){
+					if(this.ship1.lives * this.ship1.lives*this.ship1.score > this.ship2.lives * this.ship2.lives*this.ship2.score){
+						this.ship1.getVictory();
+					} else {
+						this.ship2.getVictory();
+					}
+				} else {
+					if(this.ship1.lives == 0){
+						this.ship2.getVictory();
+					} else {
+						this.ship1.getVictory();
+					}
+				}
+			}
 	}
+
+	@Override
+	public void endingController(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		tunnel.print(g2d);
+		this.ship1.print(g2d);
+		this.ship2.print(g2d);
+		
+		this.ship1.finalScore(g2d, true, ship2);
+		this.ship2.finalScore(g2d, false, ship2);
+		
+		printTime(Game.gameDuration, g2d);
+		
+		Graphics g = (Graphics) g2d;
+		g.setColor(Parameters.BACKGROUND_COLOR);
+		g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
+		g.setColor(Parameters.DEFAULT_COLOR);
+	}
+	
+	
 	
 }

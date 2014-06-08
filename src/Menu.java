@@ -21,5 +21,11 @@ public class Menu extends FlatPanel {
 		tunnel.controller(g);
 		jbm.controller(g);
 	}
+
+	@Override
+	public void endingController(Graphics2D g2d) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
