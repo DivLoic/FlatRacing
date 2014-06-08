@@ -12,6 +12,7 @@ public class Menu extends FlatPanel {
 		// TODO Auto-generated method stub
 		this.tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), 200);
 		this.jbm = new ButtonManager();
+		this.whithBreak = false;
 	}
 	
 	@Override

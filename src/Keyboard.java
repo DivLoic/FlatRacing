@@ -14,6 +14,8 @@ public class Keyboard extends JFrame  {
 		keys.put(KeyEvent.VK_LEFT, false);
 		keys.put(KeyEvent.VK_RIGHT, false);
 		keys.put(KeyEvent.VK_ENTER, false);
+		keys.put(KeyEvent.VK_ESCAPE, false);
+		keys.put(KeyEvent.VK_SPACE, false);
 	}
 	
 	public void addKey(int asc) {
@@ -24,12 +26,21 @@ public class Keyboard extends JFrame  {
 	}
 	
 	public void press(KeyEvent event) {
-		directionMapper(event,true);
-				
+		if(event.getKeyCode() == KeyEvent.VK_SPACE) {
+			Game.gameBreak = ! Game.gameBreak;
+		} else {
+			directionMapper(event,true);
+		}
 	}
 
 	public void release(KeyEvent event) {
-		directionMapper(event,false);
+		if(event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			Game.mode = 0;
+		} else if (event.getKeyCode() == KeyEvent.VK_SPACE){
+			
+		} else {
+			directionMapper(event,false);
+		}
 	}
 	
 	public  void directionMapper(KeyEvent event, boolean status){

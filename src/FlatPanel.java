@@ -1,15 +1,15 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
 
 public abstract class FlatPanel extends JPanel{
-
+	public boolean whithBreak = false;
 	public abstract void buildElements();
 	public abstract void personalController(Graphics2D g2d );
-	
 	public FlatPanel() {
 		this.buildElements();
 	}
@@ -28,5 +28,10 @@ public abstract class FlatPanel extends JPanel{
 		this.personalController(g2d);
 		
 	}
+	
+	public void pause(){
+		
+	}
+	
 	
 }

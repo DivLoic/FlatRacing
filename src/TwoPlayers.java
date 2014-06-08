@@ -41,6 +41,7 @@ public class TwoPlayers extends FlatPanel {
 		this.allMeteors = new MeteorShawer(); 
 		this.ship1 = new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT});
 		this.ship2 = new Ship(150, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(147,76,147), 20, new int[]{KeyEvent.VK_Z, KeyEvent.VK_D,  KeyEvent.VK_S, KeyEvent.VK_Q});
+		this.whithBreak = true;
 	}
 
 	@Override
@@ -62,6 +63,7 @@ public class TwoPlayers extends FlatPanel {
 			g.setColor(Parameters.BACKGROUND_COLOR);
 			g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le léger dépassement du bord du tunnel sur les informations
 			g.setColor(Parameters.DEFAULT_COLOR);
+
 
 	}
 	
