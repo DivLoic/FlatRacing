@@ -86,9 +86,6 @@ public class ButtonManager {
 		Game.joystick.addKey(KeyEvent.VK_ENTER);
 	}
 	
-	private void slideTonework(){
-		
-	}
 	
 	
 	public void controller(Graphics2D g){

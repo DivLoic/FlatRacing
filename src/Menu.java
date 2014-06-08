@@ -2,8 +2,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 
+
+@SuppressWarnings("serial")
 public class Menu extends FlatPanel {
 	
 	private Tunnel tunnel;

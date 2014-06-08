@@ -2,9 +2,9 @@
 import java.awt.event.KeyEvent;
 import java.util.Hashtable;
 
-
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class Keyboard extends JFrame  {
 	
 	private Hashtable<Integer, Boolean> keys; 

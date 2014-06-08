@@ -36,8 +36,6 @@ public class Ship {
 	
 	private int counterCollisionTunnel;
 	
-	private int[] keytab; 
-	
 	private int up;
 	private int right;
 	private int down;
@@ -79,8 +77,6 @@ public class Ship {
 		this.invincibilityClock = 10;
 		
 		this.counterCollisionTunnel = 0;
-		
-		this.keytab = keytab;
 		
 
 
@@ -199,7 +195,7 @@ public class Ship {
 					
 					this.counterCollisionTunnel++;
 					
-					if(this.counterCollisionTunnel % 2 == 0) {
+					if(this.counterCollisionTunnel % 5 == 0) {
 						if(tunnel.top.vx <= -3) {
 							tunnel.top.vx++;
 							tunnel.bottom.vx++;
@@ -223,7 +219,7 @@ public class Ship {
 					
 					this.counterCollisionTunnel++;
 					
-					if(this.counterCollisionTunnel % 3 == 0) {
+					if(this.counterCollisionTunnel % 5 == 0) {
 						if(tunnel.bottom.vx <= -3) {
 							tunnel.top.vx++;
 							tunnel.bottom.vx++;
@@ -266,6 +262,7 @@ public class Ship {
 		for(int i = 1; i < meteors.meteorPool.size(); i++ ) {
 			if( meteors.meteorPool.get(i).getAvailable() == false) {
 				if(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) <= this.r + meteors.meteorPool.get(i).size) {
+					@SuppressWarnings("unused")
 					double k = Math.abs(Utilities.distanceTwoPoints(this.x, this.y, meteors.meteorPool.get(i).x, meteors.meteorPool.get(i).y) - (this.r + meteors.meteorPool.get(i).size));
 					
 					if(!this.invincibility) {

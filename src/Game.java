@@ -3,6 +3,7 @@ import javax.swing.JFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+@SuppressWarnings("serial")
 public class Game extends JFrame {
 
 	public static Keyboard joystick = new Keyboard();

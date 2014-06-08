@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+@SuppressWarnings("serial")
 public class TwoPlayers extends FlatPanel {
 	
 	private Tunnel tunnel ;

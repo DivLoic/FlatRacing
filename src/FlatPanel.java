@@ -1,11 +1,11 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public abstract class FlatPanel extends JPanel{
 	public boolean whithBreak = false;
 	public boolean gameOver  = false;
