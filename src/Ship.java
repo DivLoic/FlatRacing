@@ -45,7 +45,13 @@ public class Ship {
 	private ArrayList<Trace> flash = new ArrayList<Trace>() ;
 	private PullRemains remains = new PullRemains(); 
 	
-	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int lives, int[] keytab) {
+	
+	private boolean informationsLeftOrRight;
+	private int informationsY;
+	
+	
+	
+	public Ship(double x, double y , double vx, double vy, double vxMax, double vyMax, double ax, double ay, double frictX, double frictY, double r, Color color, int lives, int[] keytab, boolean informationsLeftOrRight, int informationsY) {
 		this.x = x;
 		this.y = y;
 		
@@ -87,6 +93,10 @@ public class Ship {
 		for(int i= 0; i< 20; i++){
 			this.flash.add(new Trace());
 		}
+		
+		this.informationsLeftOrRight = informationsLeftOrRight;
+		this.informationsY = informationsY;
+		
 	}
 	
 	
@@ -224,7 +234,7 @@ public class Ship {
 		}
 	}
 	
-	private void scoreCalculator(Graphics2D g, boolean leftOrRight) {
+	private void scoreCalculator(Graphics2D g) {
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
 		
@@ -234,14 +244,14 @@ public class Ship {
 		
 		g.setColor(Parameters.DEFAULT_COLOR);
 		
-		if(leftOrRight) {
-			g.drawString("Score : ", 10, Parameters.SCREEN_MAX_HEIGHT + 50);
+		if(this.informationsLeftOrRight) {
+			g.drawString("Score : ", 10, Parameters.SCREEN_MAX_HEIGHT + this.informationsY + 25);
 			g.setColor(this.color);
-			g.drawString("" + this.score + "", 10 +lengthStringScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+			g.drawString("" + this.score + "", 10 +lengthStringScore, Parameters.SCREEN_MAX_HEIGHT + this.informationsY + 25);
 		} else {
-			g.drawString("Score : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyScore-lengthStringScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+			g.drawString("Score : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyScore-lengthStringScore, Parameters.SCREEN_MAX_HEIGHT + this.informationsY + 25);
 			g.setColor(this.color);
-			g.drawString("" + this.score + "", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyScore, Parameters.SCREEN_MAX_HEIGHT + 50);
+			g.drawString("" + this.score + "", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyScore, Parameters.SCREEN_MAX_HEIGHT + this.informationsY + 25);
 		}
 		
 		g.setColor(Parameters.DEFAULT_COLOR);
@@ -251,7 +261,7 @@ public class Ship {
 		}
 	}
 	
-	private void checkLives(Graphics2D g, boolean leftOrRight) {
+	private void checkLives(Graphics2D g) {
 		Font myFont = new Font("Arial", Font.BOLD, 16);
 		g.setFont(myFont);
 		
@@ -261,14 +271,14 @@ public class Ship {
 		
 		g.setColor(Parameters.DEFAULT_COLOR);
 		
-		if(leftOrRight) {
-			g.drawString("Lives : ", 10, Parameters.SCREEN_MAX_HEIGHT + 25);
+		if(this.informationsLeftOrRight) {
+			g.drawString("Lives : ", 10, Parameters.SCREEN_MAX_HEIGHT + this.informationsY);
 			g.setColor(this.color);
-			g.drawString("" + this.lives + "", 10 +lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+			g.drawString("" + this.lives + "", 10 +lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + this.informationsY);
 		} else {
-			g.drawString("Lives : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives-lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+			g.drawString("Lives : ", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives-lengthStringLives, Parameters.SCREEN_MAX_HEIGHT + this.informationsY);
 			g.setColor(this.color);
-			g.drawString("" + this.lives + "", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives, Parameters.SCREEN_MAX_HEIGHT + 25);
+			g.drawString("" + this.lives + "", Parameters.SCREEN_MAX_WIDTH - 10 -lengthMyLives, Parameters.SCREEN_MAX_HEIGHT + this.informationsY);
 		}
 		
 		g.setColor(Parameters.DEFAULT_COLOR);
@@ -345,16 +355,22 @@ public class Ship {
 	}
 	
 	
-	public void controller(Tunnel tunnel, Ship ship, Graphics2D g, MeteorShawer meteors, boolean leftOrRight) {
+	public void controller(Tunnel tunnel, Ship[] allShips, MeteorShawer meteors, Graphics2D g, boolean leftOrRight) {
 		this.drive();
 		this.move();
-		this.collisionShip(ship);
+		
+		for(int i = 0, n = allShips.length ; i < n ; i++) {
+			if(allShips[i] != this) {
+				this.collisionShip(allShips[i]);
+			}
+		}
+			
 		this.remains.controller(g);
 		this.collisionMeteor(meteors);
 		this.collisionTunnel(tunnel);
 		this.checkInvincibility();
-		this.scoreCalculator(g, leftOrRight);
-		this.checkLives(g, leftOrRight);
+		this.scoreCalculator(g);
+		this.checkLives(g);
 		
 		for(int i = 0; i < this.flash.size(); i++){
 			if(this.flash.get(i).getAvailable() == false){

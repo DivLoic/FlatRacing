@@ -10,22 +10,42 @@ import javax.swing.JPanel;
 public class OnePlayer extends FlatPanel {
 	
 	private Tunnel tunnel;
-	private Ship ship;
 	
-	@Override
+	private MeteorShawer allMeteors;
+	
+	private Ship[] allShips;
+	
 	public void buildElements() {
 		// TODO Auto-generated method stub
-		this.tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73),Parameters.MIN_THRESHOLD);
-		this.ship = new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT});
+		this.tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), Parameters.MIN_THRESHOLD);
+		this.allMeteors = new MeteorShawer(); 
+		
+		this.allShips = new Ship[]{
+				new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT}, true, 25)
+		};
+		
 		this.whithBreak = true;
 	}
 
 	@Override
 	public void personalController(Graphics2D g2d) {
 		// TODO Auto-generated method stub
-		tunnel.controller(g2d);
-		//p.spread();
-		//ship1.controller(tunnel,ship1,g2d);
+			Game.mainClock++;
+			
+			this.allMeteors.controller(tunnel, g2d);
+			
+			for(int i = 0, n = this.allShips.length ; i < n ; i++) {
+				this.allShips[i].controller(tunnel, allShips, allMeteors, g2d, true);
+			}
+			
+			tunnel.controller(g2d);
+			
+			Graphics g = (Graphics) g2d;
+			g.setColor(Parameters.BACKGROUND_COLOR);
+			g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le lŽger dŽpassement du bord du tunnel sur les informations
+			g.setColor(Parameters.DEFAULT_COLOR);
+
+
 	}
 	
 }

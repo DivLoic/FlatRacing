@@ -9,8 +9,8 @@ public class TwoPlayers extends FlatPanel {
 	
 	private Tunnel tunnel ;
 	private MeteorShawer allMeteors;
-	private Ship ship1;
-	private Ship ship2;
+	
+	private Ship[] allShips;
 		
 
 	private void printTime(int duration, Graphics2D g) {
@@ -39,8 +39,13 @@ public class TwoPlayers extends FlatPanel {
 		// TODO Auto-generated method stub
 		this.tunnel = new Tunnel(Parameters.SCREEN_MAX_WIDTH, -4, 25, new Color(73,73,73), new Color(73,73,73), Parameters.MIN_THRESHOLD);
 		this.allMeteors = new MeteorShawer(); 
-		this.ship1 = new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT});
-		this.ship2 = new Ship(150, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(147,76,147), 20, new int[]{KeyEvent.VK_Z, KeyEvent.VK_D,  KeyEvent.VK_S, KeyEvent.VK_Q});
+		
+		this.allShips = new Ship[]{
+				new Ship(50, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(176,95,35), 20, new int[]{KeyEvent.VK_UP, KeyEvent.VK_RIGHT,  KeyEvent.VK_DOWN, KeyEvent.VK_LEFT}, true, 25),
+				new Ship(150, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(147,76,147), 20, new int[]{KeyEvent.VK_Z, KeyEvent.VK_D,  KeyEvent.VK_S, KeyEvent.VK_Q}, false, 25),
+				//new Ship(200, Parameters.SCREEN_MAX_HEIGHT/2, 0, 0, 5, 5, 0.5, 0.5, 0.93, 0.93, 8, new Color(127,16,147), 20, new int[]{KeyEvent.VK_U, KeyEvent.VK_K,  KeyEvent.VK_H, KeyEvent.VK_J}, true, 70)
+		};
+		
 		this.whithBreak = true;
 	}
 
@@ -53,8 +58,11 @@ public class TwoPlayers extends FlatPanel {
 			Game.mainClock++;
 			
 			this.allMeteors.controller(tunnel, g2d);
-			this.ship1.controller(tunnel, ship2, g2d, allMeteors ,true);
-			this.ship2.controller(tunnel, ship1, g2d, allMeteors ,false);
+			
+			for(int i = 0, n = this.allShips.length ; i < n ; i++) {
+				this.allShips[i].controller(tunnel, allShips, allMeteors, g2d, true);
+			}
+			
 			tunnel.controller(g2d);
 			
 			this.printTime(Game.gameDuration, g2d);
