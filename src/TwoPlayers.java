@@ -103,7 +103,7 @@ public class TwoPlayers extends FlatPanel {
 		
 		for(int i = 0, n = this.allShips.length ; i < n ; i++) {
 			this.allShips[i].print(g2d);
-			this.allShips[i].finalScore(g2d, true);
+			this.allShips[i].finalScore(g2d, this.allShips[i].informationsLeftOrRight);
 		}
 		
 		printTime(this.gameDuration, g2d);
@@ -113,7 +113,7 @@ public class TwoPlayers extends FlatPanel {
 		g.fillRect(0, Parameters.SCREEN_MAX_HEIGHT, this.getWidth(), 10); // Supprimer le lŽger dŽpassement du bord du tunnel sur les informations
 		g.setColor(Parameters.DEFAULT_COLOR);
 	}
-	
+
 	
 	
 }

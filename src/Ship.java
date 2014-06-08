@@ -48,7 +48,7 @@ public class Ship {
 	private PullRemains remains = new PullRemains(); 
 	
 	
-	private boolean informationsLeftOrRight;
+	protected boolean informationsLeftOrRight;
 	private int informationsY;
 	
 	
