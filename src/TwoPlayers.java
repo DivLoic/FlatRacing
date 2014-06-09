@@ -34,6 +34,7 @@ public class TwoPlayers extends FlatPanel {
 			int lengthStringTime = fm.stringWidth(time);
 			g.drawString(time, Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
 		} else {
+			g.setColor(Color.BLACK);
 			FontMetrics fm = g.getFontMetrics(myFont);
 			int lengthStringTime = fm.stringWidth("GAME OVER");
 			g.drawString("GAME OVER", Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
@@ -104,7 +105,7 @@ public class TwoPlayers extends FlatPanel {
 		
 		for(int i = 0, n = this.allShips.length ; i < n ; i++) {
 			this.allShips[i].print(g2d);
-			this.allShips[i].scoreCalculator(g2d);
+			this.allShips[i].finalScore(g2d, this.allShips[i].informationsLeftOrRight);
 		}
 		
 		printTime(this.gameDuration, g2d);
