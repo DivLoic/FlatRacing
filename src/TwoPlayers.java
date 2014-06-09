@@ -14,32 +14,7 @@ public class TwoPlayers extends FlatPanel {
 	private Ship[] allShips;
 		
 
-	private void printTime(int duration, Graphics2D g) {
-		int min = duration / 60;
-		int sec = duration % 60;
-		
-		String secStr = "" + sec;
-
-		if(sec < 10) {
-			secStr = "0" + sec;
-		}
-
-		String time = "[ " + min + ":" + secStr + " ]";
-		
-		Font myFont = new Font("Arial", Font.BOLD, 16);
-		g.setFont(myFont);
-		
-		if(!this.gameOver) {
-			FontMetrics fm = g.getFontMetrics(myFont);
-			int lengthStringTime = fm.stringWidth(time);
-			g.drawString(time, Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
-		} else {
-			g.setColor(Color.BLACK);
-			FontMetrics fm = g.getFontMetrics(myFont);
-			int lengthStringTime = fm.stringWidth("GAME OVER");
-			g.drawString("GAME OVER", Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
-		}
-	}
+	
 
 	@Override
 	public void buildElements() {
@@ -82,19 +57,61 @@ public class TwoPlayers extends FlatPanel {
 			if( this.gameDuration <= 0 || this.allShips[0].lives <= 0 || this.allShips[1].lives <= 0 ) {
 				this.gameOver = true;
 				if(this.gameDuration <= 0){
-					if(this.allShips[0].lives * this.allShips[0].lives*this.allShips[0].score > this.allShips[1].lives * this.allShips[1].lives*this.allShips[1].score){
-						this.allShips[0].getVictory();
-					} else {
-						this.allShips[1].getVictory();
-					}
+					findWinner(allShips);
 				} else {
-					if(this.allShips[0].lives == 0){
-						this.allShips[1].getVictory();
-					} else {
-						this.allShips[0].getVictory();
-					}
+					giveUp(allShips);
 				}
 			}
+	}
+	
+	private void printTime(int duration, Graphics2D g) {
+		int min = duration / 60;
+		int sec = duration % 60;
+		
+		String secStr = "" + sec;
+
+		if(sec < 10) {
+			secStr = "0" + sec;
+		}
+
+		String time = "[ " + min + ":" + secStr + " ]";
+		
+		Font myFont = new Font("Arial", Font.BOLD, 16);
+		g.setFont(myFont);
+		
+		if(!this.gameOver) {
+			FontMetrics fm = g.getFontMetrics(myFont);
+			int lengthStringTime = fm.stringWidth(time);
+			g.drawString(time, Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
+		} else {
+			g.setColor(Color.BLACK);
+			FontMetrics fm = g.getFontMetrics(myFont);
+			int lengthStringTime = fm.stringWidth("GAME OVER");
+			g.drawString("GAME OVER", Parameters.SCREEN_MAX_WIDTH/2 - lengthStringTime/2, Parameters.SCREEN_MAX_HEIGHT + 37);
+		}
+	}
+	
+	private void findWinner(Ship[] tabShip){
+		int indice =0;
+		double maxscore = 0;
+		for(int i=0; i < tabShip.length; i++){
+			if(tabShip[i].score + tabShip[i].lives * 10 > maxscore ){
+				maxscore = tabShip[i].score + tabShip[i].lives * 10 ;
+				indice = i;
+			}
+		}
+		tabShip[indice].getVictory();
+	}
+	
+	private void giveUp(Ship[] tabShip){
+		int indice =0;
+		for(int i=0; i < tabShip.length; i++){
+			if(tabShip[i].lives  <= 0){
+				
+			} else {
+				tabShip[i].getVictory();
+			}
+		}
 	}
 
 	@Override

@@ -65,25 +65,32 @@ public class ButtonManager {
 	private boolean step2 = false;
 	
 	public ButtonManager(){
-		b1 = new Button ("Jouer", 200, 150, true);
-		b2 = new Button ("RŽseaux", 350, 150, false);
+		this.b1 = new Button ("Jouer", 200, 150, true);
+		this.b2 = new Button ("RŽseaux", 350, 150, false);
 	}
+	
+	public void reButtonManager(){
+		this.b1 = new Button ("Jouer", 200, 150, true);
+		this.b2 = new Button ("RŽseaux", 350, 150, false);
+	}
+	
 	
 	private void buttonSwitch(boolean b) {
 		if(b){
-			b1.release();
-			b2.press();
+			this.b1.release();
+			this.b2.press();
 		} else {
-			b2.release();
-			b1.press();
+			this.b2.release();
+			this.b1.press();
 		}
 	}
 	
 	private void slideToplay(){
+		Game.joystick.addKey(KeyEvent.VK_ENTER);
 		step2 = true;
 		b1 = new Button("1 Joueur", 200, 150, true);
 		b2 = new Button ("2 Joueurs", 350, 150, false);
-		Game.joystick.addKey(KeyEvent.VK_ENTER);
+		
 	}
 	
 	
@@ -98,14 +105,16 @@ public class ButtonManager {
 		if(Game.joystick.getMove(KeyEvent.VK_LEFT)){
 			buttonSwitch(false);
 		}
+		if(Game.joystick.getMove(KeyEvent.VK_ESCAPE) && step2){
+			Game.joystick.addKey(KeyEvent.VK_ESCAPE);
+			step2 = false;
+			reButtonManager();
+		}
 		if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b1.selected && !step2){
 			slideToplay();
 		}else if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b2.selected && step2){
-			
 			Game.mode = 2;
-
 		}else if(Game.joystick.getMove(KeyEvent.VK_ENTER) && b1.selected && step2){
-
 			Game.mode = 1;
 		}
 		
