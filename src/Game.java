@@ -2,6 +2,8 @@ import javax.swing.JFrame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 @SuppressWarnings("serial")
 public class Game extends JFrame {
@@ -11,7 +13,8 @@ public class Game extends JFrame {
 	public static boolean gameBreak = false;
 	public static int mainClock = 0;
 
-
+	public static ObjectInputStream in;
+	public static ObjectOutputStream out;
 
 	public Game(int width, int height) {
 		this.setTitle("FlatRacing");
@@ -45,19 +48,27 @@ public class Game extends JFrame {
 		while(true) {
 			switch(mode){
 				case 0:
-					Launcher Menu = new Launcher(FlatRacing, new Menu(),0);
-					Menu.loop();
+					Launcher menu = new Launcher(FlatRacing, new Menu(),0);
+					menu.loop();
 				case 1:
-					Launcher OnePlayer = new Launcher(FlatRacing, new OnePlayer(),1);
-					OnePlayer.loop();
+					Launcher onePlayer = new Launcher(FlatRacing, new OnePlayer(),1);
+					onePlayer.loop();
+					break;
 				case 2:
-					Launcher TwoPlayers = new Launcher(FlatRacing, new TwoPlayers(),2);
-					TwoPlayers.loop();
+					Launcher twoPlayers = new Launcher(FlatRacing, new TwoPlayers(),2);
+					twoPlayers.loop();
+					break;
 				case 3:
-	
+					Launcher netPlayers = new Launcher(FlatRacing, new NetPlayers(out, in, Connection.firstPlayer),3);
+					netPlayers.loop();
+					break;
+				case 4:
+					Launcher server = new Launcher(FlatRacing, new Server(),4);
+					server.loop();
+					break;
 				default:
-					Launcher Menudefault = new Launcher(FlatRacing, new Menu(),0);
-					Menudefault.loop();
+					Launcher menudefault = new Launcher(FlatRacing, new Menu(),0);
+					menudefault.loop();
 				break;
 			}
 		}

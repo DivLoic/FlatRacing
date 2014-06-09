@@ -4,6 +4,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 
@@ -175,7 +178,7 @@ public class Ship {
 		this.vy *= this.frictY;
 	}
 	
-	private void collisionTunnel(Tunnel tunnel) {
+	void collisionTunnel(Tunnel tunnel) {
 		if(this.x >= 0 && this.x < Parameters.SCREEN_MAX_WIDTH) {
 			int l = (int)Math.round(this.x);
 			int m = (int)Math.round(this.x - this.r);
@@ -457,6 +460,55 @@ public class Ship {
 	public void getVictory(){
 		this.isWinner = true;
 	}
+	
+
+	public void getNetPos(ObjectInputStream in,boolean isfirst) {
+		double[] acc = new double[3];
+		try {
+			 acc = (double[]) in.readObject();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(isfirst && acc[0] == 1){
+			this.x = acc[1]; 
+			this.y = acc[2];
+		} else if(!isfirst && acc[0] == 2){
+			this.x = acc[1]; 
+			this.y = acc[2];
+		}
+		
+	}
+	
+	
+	public void sendNetPos(ObjectOutputStream out, boolean isfirst) {
+		double [] d = {0,this.x, this.y};
+		if(isfirst){
+			d[0] = 1;
+		}else{
+			d[0] = 2;
+		}
+		
+		try {
+			out.writeObject(d);
+			out.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void controllerEffect(Tunnel tunnel, Graphics2D g){
+		this.scoreCalculator(g);
+		this.collisionTunnel(tunnel);
+		this.checkInvincibility();
+
+	}
+	
 	
 public void controller(Tunnel tunnel, Ship[] allShips, MeteorShawer meteors, Graphics2D g, boolean leftOrRight) {
 

@@ -25,7 +25,7 @@ public class Parameters {
 	public static final double METEOR_MAX_SPEED = 4.5;
 	public static final double METEOR_PROBA = 8;
 
-	
+	public static final int FIRST_PORT = 3333;
 	
 	
 	public static final double REMAINS_SIZE = 5;

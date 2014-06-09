@@ -20,7 +20,7 @@ public class Launcher {
 		public void loop(){
 			
 			if(!panel.whithBreak) {
-				while(Game.mode == this.mode ) {
+				while(Game.mode == this.mode  && this.mode != 3) {
 					this.action();
 				}
 			} else {

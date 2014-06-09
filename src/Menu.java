@@ -9,6 +9,7 @@ public class Menu extends FlatPanel {
 	
 	private Tunnel tunnel;
 	private ButtonManager jbm;
+	public boolean networkRequest = false;
 	
 	@Override
 	public void buildElements() {
@@ -22,7 +23,7 @@ public class Menu extends FlatPanel {
 	public void personalController(Graphics2D g) {
 		// TODO Auto-generated method stub
 		tunnel.controller(g);
-		jbm.controller(g);
+		jbm.controller(g , this);
 	}
 
 	@Override
