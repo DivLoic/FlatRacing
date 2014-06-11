@@ -107,11 +107,11 @@ class Remain {
 	
 }
 
-public class PullRemains {
+public class PoolRemains {
 	
 	private ArrayList<Remain> rem = new ArrayList<Remain>() ;
 	
-	public PullRemains(){
+	public PoolRemains(){
 		for(int i= 0; i< 60; i++){
 			this.rem.add(new Remain());
 		}

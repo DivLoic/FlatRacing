@@ -43,7 +43,7 @@ public class Ship {
 	private boolean isWinner = false;
 	
 	private ArrayList<Trace> flash = new ArrayList<Trace>() ;
-	private PullRemains remains = new PullRemains(); 
+	private PoolRemains remains = new PoolRemains(); 
 	
 	
 	protected boolean informationsLeftOrRight;
